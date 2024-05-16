@@ -55,7 +55,8 @@ To contribute to the project, follow these steps:
 
 - [React Documentation](https://reactjs.org/docs/getting-started.html)
 - [Node.js Documentation](https://nodejs.org/en/docs/)
+- [React Bootstrap](https://create-react-app.dev/docs/getting-started)
 
-If you have any questions or need further assistance, feel free to contact members in the team
+If you have any questions or need further assistance, feel free to contact any members in the team
 
 TADAA! Happy coding! (as usual)
