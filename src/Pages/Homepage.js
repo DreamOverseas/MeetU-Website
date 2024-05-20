@@ -1,12 +1,14 @@
 import React from 'react';
-import { Container, Navbar, Nav, Form, Button, Row, Col } from 'react-bootstrap';
+import { Container, Navbar, Nav, Form, Button, Row, Col, Image } from 'react-bootstrap';
+import '../Css/homepage.css';
 
 const Homepage = () => {
     return (
+        <div>
         <div style={{ backgroundImage: 'url(homepage_bg.png)', backgroundSize: 'cover', height: '100vh', color: 'white' }}>
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Container>
-                    <Navbar.Brand class="justify_content_left" href="#home">MeetU</Navbar.Brand>
+                    <Navbar.Brand class="justify_content_left" href="#home"><Image className='meetu-logo' src='meetu_logo_512x385.png' alt="MeetU" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
@@ -66,6 +68,28 @@ const Homepage = () => {
                     </Button>
                 </Form>
             </Container>
+            </div>
+            <footer className="bg-dark text-white mt-4">
+                <Container fluid className="py-3">
+                    <Row className="align-items-center">
+                        {/* Logo on the left */}
+                        <Col xs={6} md={4}>
+                            <Image
+                                src="meetu_logo_512x385.png"
+                                alt="Logo"
+                                fluid
+                            />
+                        </Col>
+
+                        {/* Contact info on the right */}
+                        <Col xs={6} md={8} className="text-md-right">
+                            <p className="mb-0"><strong>Contact Us:</strong></p>
+                            <p className="mb-0">Email: example@email.com</p>
+                            <p className="mb-0">Phone: +1234567890</p>
+                        </Col>
+                    </Row>
+                </Container>
+            </footer>
         </div>
     );
 };
