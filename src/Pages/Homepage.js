@@ -6,21 +6,19 @@ const Homepage = () => {
         <div style={{ backgroundImage: 'url(homepage_bg.png)', backgroundSize: 'cover', height: '100vh', color: 'white' }}>
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">MeetU</Navbar.Brand>
+                    <Navbar.Brand class="justify_content_left" href="#home">MeetU</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <Nav.Link href="#events">Events</Nav.Link>
-                            <Nav.Link href="#contact">Contact Us</Nav.Link>
                             <Nav.Link href="#membership">Membership</Nav.Link>
-                            <Nav.Link href="#login" className="btn btn-primary">Log in</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
 
             <Container className="d-flex flex-column align-items-end justify-content-center" style={{ height: '80%' }}>
-                <Form className="p-4 rounded" style={{ maxWidth: '400px', width: '100%', background: 'rgba(255, 255, 255, 0.3)'}}>
+                <Form className="p-4 rounded" style={{ maxWidth: '400px', width: '100%', background: 'rgba(0, 0, 0, 0.3)'}}>
                     <Form.Group controlId="formName">
                         <Form.Label>What's your name?</Form.Label>
                         <Form.Control type="text" placeholder="Enter your name" />
@@ -62,7 +60,7 @@ const Homepage = () => {
                             />
                         </div>
                     </Form.Group>
-
+                    <br></br>
                     <Button variant="success" type="submit" block>
                         Register!
                     </Button>
