@@ -12,21 +12,9 @@ const Home = () => {
       />
       <Container className='home-container'>
         <Row className='align-items-center'>
-          <Col md={12} className='text-center'>
-            <h1 className='slogan'>MeetU</h1>
-            <p className='subtitle'>Meet yourself from here.</p>
-          </Col>
-        </Row>
-        <Row className='align-items-center'>
-          <Col md={6} className='text-center'>
-            <Image
-              src='image.png'
-              alt='Earth with location pins'
-              fluid
-              className='main-image'
-            />
-          </Col>
-          <Col md={6} className='text-center'>
+            <Col md={5} className='text-center'>
+                <h1 className='slogan'>MeetU</h1>
+                <p className='subtitle'>Meet yourself from here.</p>
             <Form className='form-container'>
               <Form.Group controlId='formFirstName'>
                 <Form.Label>First Name *</Form.Label>
@@ -49,7 +37,8 @@ const Home = () => {
                   <option>Healthcare</option>
                   <option>Education</option>
                 </Form.Control>
-              </Form.Group>
+                          </Form.Group>
+              <br />
               <Button variant='success' type='submit' block>
                 CLAIM NOW
               </Button>
@@ -70,7 +59,9 @@ const Home = () => {
                 />
               </a>
             </div>
-          </Col>
+            </Col>
+            <Col md={6} className='text-center'>
+            </Col>
         </Row>
       </Container>
     </div>

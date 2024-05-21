@@ -8,7 +8,7 @@ function Header() {
     <header>
       <Navbar expand='lg' className='navbar-custom'>
         <div className='navbar-content'>
-          <Navbar.Brand href='#home'>
+          <Navbar.Brand href='/'>
             <Image
               className='meetu-logo'
               src='meetu_logo_512x385.png'
@@ -18,8 +18,8 @@ function Header() {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
-              <Nav.Link href='Events'>Events</Nav.Link>
-              <Nav.Link href='Membership'>Membership</Nav.Link>
+              <Nav.Link href='/Events'>Events</Nav.Link>
+              <Nav.Link href='/Membership'>Membership</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </div>
