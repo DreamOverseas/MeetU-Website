@@ -1,0 +1,22 @@
+/* src/Css/footer.css */
+
+.footer-custom {
+  background: white;
+  color: black;
+  padding: 1rem 0;
+}
+
+.footer-content {
+  width: 100%;
+}
+
+.footer-custom .row {
+  align-items: center;
+}
+
+.footer-custom .text-md-right {
+  text-align: right;
+}
+.footer-logo {
+  max-height: 50px; /* 调整logo的最大高度 */
+}
