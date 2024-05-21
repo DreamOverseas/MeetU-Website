@@ -22,5 +22,41 @@
 }
 
 header .meetu-logo {
-  height: 40px; /* 根据需要调整logo的高度 */
+  height: 40px; /* Adjust Logo Height on you need */
+}
+
+/* Custom styles for the entire accordion component */
+.accordion-custom .accordion-item {
+    background-color: transparent; /* Sets the background of items to transparent */
+    border: none; /* Removes borders around accordion items */
+}
+
+/* Styling for accordion headers */
+.accordion-custom .accordion-header {
+    background-color: transparent; /* Sets header background to transparent */
+    color: white; /* Sets text color to white */
+}
+
+/* Ensures no borders are visible on the accordion header */
+.accordion-custom .accordion-button {
+    background-color: transparent;
+    color: white; /* White text for the button */
+    border: none; /* Removes border from the button */
+    box-shadow: none; /* Removes focus or click shadows */
+}
+
+/* Styles when the accordion is expanded */
+.accordion-custom .accordion-button:not(.collapsed) {
+    background-color: transparent;
+    color: white;
+}
+
+/* Styling for accordion body */
+.accordion-custom .accordion-body {
+    background-color: transparent; /* Transparent background for the body */
+    color: white; /* White text for content */
+}
+
+.plans {
+    margin: 0 10px; /* Adds horizontal padding between plans cards */
 }

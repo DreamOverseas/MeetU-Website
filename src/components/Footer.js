@@ -11,7 +11,7 @@ function Footer() {
           {/* Logo on the left */}
           <Col xs={6} md={4} className='footer-logo-container'>
             <Image
-              src='meetu_logo_512x385.png'
+              src='meetu_logo_512.png'
               alt='Logo'
               fluid
               className='footer-logo'
