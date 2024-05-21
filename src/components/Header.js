@@ -18,8 +18,8 @@ function Header() {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
-              <Nav.Link href='#events'>Events</Nav.Link>
-              <Nav.Link href='#membership'>Membership</Nav.Link>
+              <Nav.Link href='Events'>Events</Nav.Link>
+              <Nav.Link href='Membership'>Membership</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </div>
