@@ -1,9 +1,14 @@
 // src/components/Header.js
-import React from "react";
-import { Navbar, Nav, Image, Accordion, Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Navbar, Nav, Image, Accordion, Card, Button } from "react-bootstrap";
 import "../css/Header.css";
 
+
 function Header() {
+    const [isLoggedIn] = useState(false);
+
+    /* Implement get/set user login status when server is ready */
+
     return (
         <header>
             <Navbar expand='lg' className='navbar-custom'>
@@ -17,9 +22,10 @@ function Header() {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
-                        <Nav className='ml-auto align-items-center'>
+                        <Nav className='ml-auto'>
                             <Nav.Link href='/Events'>Events</Nav.Link>
                             <Accordion defaultActiveKey="" className="accordion-custom">
+
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header>Membership</Accordion.Header>
                                     <Accordion.Body>
@@ -65,6 +71,15 @@ function Header() {
                             </Accordion>
                         </Nav>
                     </Navbar.Collapse>
+                    {isLoggedIn ? (
+                        <Image
+                            src="favicon.ico"    // user icon
+                            roundedCircle
+                            style={{ width: 50, height: 50, cursor: 'pointer' }}
+                        />
+                    ) : (
+                        <Button variant="outline-success" href="/login">Login</Button>
+                    )}
                 </div>
             </Navbar>
         </header>

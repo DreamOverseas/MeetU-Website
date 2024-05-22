@@ -1,9 +1,9 @@
 /* src/Css/footer.css */
 
 .footer-custom {
-  background: white;
-  color: black;
-  padding: 1rem 0;
+    background: #969696;
+    color: black;
+    padding: 1rem 10px;
 }
 
 .footer-content {
@@ -18,5 +18,5 @@
   text-align: right;
 }
 .footer-logo {
-  max-height: 50px; /* 调整logo的最大高度 */
+  max-height: 50px; /* adjust heights of the logo image */
 }

@@ -1,14 +1,15 @@
 /* src/Css/header.css */
 
 .navbar-custom {
-  background-color: #2c2c2c;
-  color: white;
+    background-color: #2c2c2c;
+    color: white;
+    align-items: flex-start;
+    padding: 10px;
 }
 
 .navbar-content {
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 
@@ -22,27 +23,31 @@
 }
 
 header .meetu-logo {
-  height: 40px; /* Adjust Logo Height on you need */
+  height: 40px;
 }
 
 /* Custom styles for the entire accordion component */
 .accordion-custom .accordion-item {
-    background-color: transparent; /* Sets the background of items to transparent */
-    border: none; /* Removes borders around accordion items */
+    background-color: transparent;
+    border: none;
 }
 
 /* Styling for accordion headers */
 .accordion-custom .accordion-header {
-    background-color: transparent; /* Sets header background to transparent */
-    color: white; /* Sets text color to white */
+    background-color: transparent;   /* Sets header background to transparent */
+    color: white;
+    font-size: 15px;
+    padding: 0 0;                    /* Adjust the padding to control the spacing inside the header */
 }
 
 /* Ensures no borders are visible on the accordion header */
 .accordion-custom .accordion-button {
-    background-color: transparent;
-    color: white; /* White text for the button */
-    border: none; /* Removes border from the button */
-    box-shadow: none; /* Removes focus or click shadows */
+    background-color: transparent;   /* Make the accordion looks like text */
+    color: white;
+    border: none;
+    box-shadow: none;
+    padding: 10px 10px;              /* Controls padding inside the button*/
+    font-size: inherit;
 }
 
 /* Styles when the accordion is expanded */
@@ -53,10 +58,16 @@ header .meetu-logo {
 
 /* Styling for accordion body */
 .accordion-custom .accordion-body {
-    background-color: transparent; /* Transparent background for the body */
-    color: white; /* White text for content */
+    background-color: transparent;
+    color: white;
 }
 
 .plans {
-    margin: 0 10px; /* Adds horizontal padding between plans cards */
+    margin: 0 10px;                   /* Adds horizontal padding between plans cards */
+}
+
+.navbar-custom .btn-outline-success {
+    margin-left: auto;                /* Login button should be on the right-most */
+    padding: 10px 10px;
+    font-size: inherit;
 }

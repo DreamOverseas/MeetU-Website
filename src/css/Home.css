@@ -14,7 +14,8 @@
 
 .home-container {
     padding:inherit;
-    text-align: center;
+    text-align: left;
+    align-content:start;
 }
 
 .slogan {
@@ -47,8 +48,9 @@
 
 .download-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   margin-top: 2rem;
+  padding: 5px;
 }
 
 .download-button {
