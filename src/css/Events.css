@@ -1,0 +1,7 @@
+.event-container {
+    background-color: #808080;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

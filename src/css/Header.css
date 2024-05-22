@@ -1,14 +1,15 @@
 /* src/Css/header.css */
 
 .navbar-custom {
-  background-color: #2c2c2c;
-  color: white;
+    background-color: #2c2c2c;
+    color: white;
+    align-items: flex-start;
+    padding: 10px;
 }
 
 .navbar-content {
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 
@@ -22,5 +23,51 @@
 }
 
 header .meetu-logo {
-  height: 40px; /* 根据需要调整logo的高度 */
+  height: 40px;
+}
+
+/* Custom styles for the entire accordion component */
+.accordion-custom .accordion-item {
+    background-color: transparent;
+    border: none;
+}
+
+/* Styling for accordion headers */
+.accordion-custom .accordion-header {
+    background-color: transparent;   /* Sets header background to transparent */
+    color: white;
+    font-size: 15px;
+    padding: 0 0;                    /* Adjust the padding to control the spacing inside the header */
+}
+
+/* Ensures no borders are visible on the accordion header */
+.accordion-custom .accordion-button {
+    background-color: transparent;   /* Make the accordion looks like text */
+    color: white;
+    border: none;
+    box-shadow: none;
+    padding: 10px 10px;              /* Controls padding inside the button*/
+    font-size: inherit;
+}
+
+/* Styles when the accordion is expanded */
+.accordion-custom .accordion-button:not(.collapsed) {
+    background-color: transparent;
+    color: white;
+}
+
+/* Styling for accordion body */
+.accordion-custom .accordion-body {
+    background-color: transparent;
+    color: white;
+}
+
+.plans {
+    margin: 0 10px;                   /* Adds horizontal padding between plans cards */
+}
+
+.navbar-custom .btn-outline-success {
+    margin-left: auto;                /* Login button should be on the right-most */
+    padding: 10px 10px;
+    font-size: inherit;
 }
