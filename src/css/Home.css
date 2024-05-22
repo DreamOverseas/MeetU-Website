@@ -65,3 +65,9 @@
   width: 170px;
   height: 50px;
 }
+
+.about-us-container {
+    background-color: #003366;
+    color: white;
+    padding: 50px;
+}
