@@ -24,6 +24,7 @@ function Header() {
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ml-auto'>
                             <Nav.Link href='/Events'>Events</Nav.Link>
+                            <Nav.Link href='/Sponsors'>Sponsors</Nav.Link>
                             <Accordion defaultActiveKey="" className="accordion-custom">
 
                                 <Accordion.Item eventKey="0">
