@@ -1,9 +1,21 @@
 // src/pages/Events.js
 // Event page contains a various showcase of our events, aimed for attracting viewers to attend > Link to Membership
-import React from 'react';
-import { Carousel, Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { React, useState } from 'react';
+import { Carousel, Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 
 const Events = () => {
+    // UseSattes that handles modal open/close
+    const [mapModal, setMapModal] = useState(false);
+    const closeMapModal = () => setMapModal(false);
+    const showMapModal = () => setMapModal(true);
+
+    // handles the change off position text
+    const [position, setPosition] = useState("Melbourne, VIC");
+    const positionChange = (text) => {
+        setPosition(text);
+        closeMapModal();
+    };
+
     function EventCard({ image, title, host, date, attendees, cost }) {
         return (
             <Col md={4} className="mb-4">
@@ -96,10 +108,10 @@ const Events = () => {
     return (
         <Container className="event-container">
             <Row className="justify-content-md-center">
-                <Col md={8}>
+                <Col md={12}>
                     <h1>Our Event Showcases!</h1>
                     <p>Our teams are here waiting for your attandance!</p>
-                    <Carousel>
+                    <Carousel className="event-carosel">
                         <Carousel.Item>
                             <img
                                 className="d-block w-100"
@@ -118,7 +130,7 @@ const Events = () => {
                                 alt="Second slide"
                             />
                             <Carousel.Caption>
-                                <h3>The Beach</h3>
+                                <h3>Peaceful Beach</h3>
                                 <p>Have a nice walk alone our 10km beach.</p>
                             </Carousel.Caption>
                         </Carousel.Item>
@@ -138,12 +150,27 @@ const Events = () => {
             </Row>
             <br />
             <h2 className="my-4">
-                Events near
-                <Button variant="outline-primary" className="ml-2 mx-4">
-                    Melbourne, AU <i class="bi bi-crosshair2"></i>
+                Events Near Me
+                <Button variant="outline-primary" className="ml-2 mx-4" onClick={showMapModal} >
+                    { position } <i class="bi bi-crosshair2"></i>
                 </Button>
             </h2>
-            <Button variant="link" className="mb-4 float-right">See all events</Button>
+            <Modal show={mapModal} onHide={closeMapModal} size="lg" centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Choose you location</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Select the position you're in:</p>
+                    <Button variant="info" onClick={() => positionChange("Melbourne, VIC")}>Melbourne, VIC</Button>{' '}
+                    <Button variant="info" onClick={() => positionChange("Sydney, NSW")}>Sydney, NSW</Button>{' '}
+                    <Button variant="info" onClick={() => positionChange("Brisbaine, QLD")}>Brisbaine, QLD</Button>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={closeMapModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             <Row>
                 {events.map((event, index) => (
                     <EventCard key={index} {...event} />
