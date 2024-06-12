@@ -1,156 +1,59 @@
-// src/pages/Events.js
-// Event page contains a various showcase of our events, aimed for attracting viewers to attend > Link to Membership
-import React from 'react';
-import { Carousel, Container, Row, Col, Card, Button } from 'react-bootstrap';
+import React from "react";
+import "../css/Events.css";
 
-const Events = () => {
-    function EventCard({ image, title, host, date, attendees, cost }) {
-        return (
-            <Col md={4} className="mb-4">
-                <Card>
-                    <Card.Img variant="top" src={image} />
-                    <Card.Body>
-                        <Card.Title>{title}</Card.Title>
-                        <Card.Text>Hosted by: {host}</Card.Text>
-                        <Card.Text>
-                            <i class="bi bi-calendar-event"></i> {date}
-                        </Card.Text>
-                        <Card.Text>
-                            <i class="bi bi-people"></i> {attendees} going <br />
-                            <i class="bi bi-ticket-perforated"></i> {cost}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Col>
-        );
-    }
-
-    // Later we can get these from cloud, use these examples crawled for now
-    const events = [
-        {
-            image: "https://placehold.co/300x200",
-            title: "Small dog meetup to celebrate Frankie's birthday",
-            host: "Small Dogs Meetup Group",
-            date: "SUN, JUNE 16 - 09:00 AEST",
-            attendees: "6",
-            cost: "Free"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            title: "The Future of Work: Navigating the Impact of Generative AI",
-            host: "Responsible AI Melbourne",
-            date: "MON, JUNE 17 - 17:30 AEST",
-            attendees: "121",
-            cost: "Free"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            title: "Let's Get Together for Breakfast/Coffee and Plan/Embark On Our Next Adventure!!!",
-            host: "Explore Victoria - Weekend Adventures in Regional...",
-            date: "SAT, JUNE 8 - 08:00 AEST",
-            attendees: "21",
-            cost: "Free"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            title: "Join Us for the Ultimate Culture Exchange Party in Collingwood!",
-            host: "Spectrum",
-            date: "SAT, JUNE 8 - 18:00 AEST",
-            attendees: "93",
-            cost: "Free"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            title: "v28_Free-Mahi-Mahi!",
-            host: "DesignOps LOL",
-            date: "TUE, JUNE 18 - 18:00 AEST",
-            attendees: "86",
-            cost: "Free"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            title: "Art Open Space",
-            host: "Melbourne Art and Social Space",
-            date: "SUN, JUNE 9 - 14:00 AEST",
-            attendees: "6",
-            cost: "Free"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            title: "Join Us for the First-Ever Decision Intelligence Meetup in Australia!",
-            host: "Decision Intelligence",
-            date: "WED, JUNE 26 - 18:00 AEST",
-            attendees: "29",
-            cost: "Free"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            title: "Lunch at Rocco's Burger Cafe",
-            host: "Eastside Lesbian Lounge Events (ELLE) 30+",
-            date: "SAT, JUNE 8 - 12:00 AEST",
-            attendees: "19",
-            cost: "Free"
-        }
-    ];
-
-    return (
-        <Container className="event-container">
-            <Row className="justify-content-md-center">
-                <Col md={8}>
-                    <h1>Our Event Showcases!</h1>
-                    <p>Our teams are here waiting for your attandance!</p>
-                    <Carousel>
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src="showcases/hotpot.jpg"
-                                alt="First slide"
-                            />
-                            <Carousel.Caption>
-                                <h3>Premium Food</h3>
-                                <p>Enjoy your food within the beautiful landscape.</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src="showcases/beach.jpg"
-                                alt="Second slide"
-                            />
-                            <Carousel.Caption>
-                                <h3>The Beach</h3>
-                                <p>Have a nice walk alone our 10km beach.</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src="showcases/wetlands.jpg"
-                                alt="Third slide"
-                            />
-                            <Carousel.Caption>
-                                <h3>Birds Gazing</h3>
-                                <p>Discover the various species in the wetlands.</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    </Carousel>
-                </Col>
-            </Row>
-            <br />
-            <h2 className="my-4">
-                Events near
-                <Button variant="outline-primary" className="ml-2 mx-4">
-                    Melbourne, AU <i class="bi bi-crosshair2"></i>
-                </Button>
-            </h2>
-            <Button variant="link" className="mb-4 float-right">See all events</Button>
-            <Row>
-                {events.map((event, index) => (
-                    <EventCard key={index} {...event} />
-                ))}
-            </Row>
-        </Container>
-    );
+const EventPage = () => {
+  return (
+    <div
+      className='relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden'
+      style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}
+    >
+      <div className='layout-container flex h-full grow flex-col'>
+        <div className='content'>
+          <div className='layout-content-container'>
+            <div className='title-bar'>
+              <p className='title'>Upcoming Events</p>
+              <button className='create-button'>Create Event</button>
+            </div>
+            <EventItem
+              image='https://cdn.usegalileo.ai/stability/915c9a7f-72d9-4a15-ad77-6f0c8cf616c2.png'
+              title='Game Night'
+              type='Online Event'
+            />
+            <EventItem
+              image='https://cdn.usegalileo.ai/sdxl10/2375f216-e2f7-463b-b8b5-fe8ab47ff2c4.png'
+              title='Board Game Cafe'
+              type='In-Person Event'
+            />
+            <EventItem
+              image='https://cdn.usegalileo.ai/sdxl10/932ed300-5c9e-4645-a839-a0dda0e1c7a7.png'
+              title='Trivia Night'
+              type='Online Event'
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Events;
+const EventItem = ({ image, title, type }) => {
+  return (
+    <div className='event-item'>
+      <div className='event-info'>
+        <div
+          className='event-image'
+          style={{ backgroundImage: `url(${image})` }}
+        ></div>
+        <div className='event-details'>
+          <p className='event-title'>{title}</p>
+          <p className='event-type'>{type}</p>
+        </div>
+      </div>
+      <div className='rsvp-container'>
+        <button className='rsvp-button'>RSVP</button>
+      </div>
+    </div>
+  );
+};
+
+export default EventPage;

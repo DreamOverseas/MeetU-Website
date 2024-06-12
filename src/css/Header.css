@@ -1,73 +1,46 @@
-/* src/Css/header.css */
+/* Header.css */
 
 .navbar-custom {
-    background-color: #2c2c2c;
-    color: white;
-    align-items: flex-start;
-    padding: 10px;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
 }
 
 .navbar-content {
-  width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
-.navbar-custom .navbar-brand,
-.navbar-custom .nav-link {
-  color: white;
+.navbar-brand {
+  color: #000;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.navbar-custom .nav-link:hover {
-  color: #ddd;
+.navbar-nav {
+  display: flex;
+  align-items: center;
 }
 
-header .meetu-logo {
-  height: 40px;
+.nav-link {
+  color: #000 !important;
+  margin: 0 15px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-/* Custom styles for the entire accordion component */
-.accordion-custom .accordion-item {
-    background-color: transparent;
-    border: none;
+.nav-link:hover {
+  color: #555 !important;
 }
 
-/* Styling for accordion headers */
-.accordion-custom .accordion-header {
-    background-color: transparent;   /* Sets header background to transparent */
-    color: white;
-    font-size: 15px;
-    padding: 0 0;                    /* Adjust the padding to control the spacing inside the header */
+button {
+  margin: 10px;
 }
 
-/* Ensures no borders are visible on the accordion header */
-.accordion-custom .accordion-button {
-    background-color: transparent;   /* Make the accordion looks like text */
-    color: white;
-    border: none;
-    box-shadow: none;
-    padding: 10px 10px;              /* Controls padding inside the button*/
-    font-size: inherit;
-}
-
-/* Styles when the accordion is expanded */
-.accordion-custom .accordion-button:not(.collapsed) {
-    background-color: transparent;
-    color: white;
-}
-
-/* Styling for accordion body */
-.accordion-custom .accordion-body {
-    background-color: transparent;
-    color: white;
-}
-
-.plans {
-    margin: 0 10px;                   /* Adds horizontal padding between plans cards */
-}
-
-.navbar-custom .btn-outline-success {
-    margin-left: auto;                /* Login button should be on the right-most */
-    padding: 10px 10px;
-    font-size: inherit;
+button:focus {
+  outline: none;
+  box-shadow: none;
 }
