@@ -53,7 +53,7 @@ const Events = () => {
             host: "Responsible AI Melbourne",
             date: "MON, JUNE 17 - 17:30 AEST",
             attendees: "121",
-            cost: "Free"
+            cost: "20"
         },
         {
             image: "https://placehold.co/300x200",
@@ -69,7 +69,7 @@ const Events = () => {
             host: "Spectrum",
             date: "SAT, JUNE 8 - 18:00 AEST",
             attendees: "93",
-            cost: "Free"
+            cost: "105"
         },
         {
             image: "https://placehold.co/300x200",
@@ -77,7 +77,7 @@ const Events = () => {
             host: "DesignOps LOL",
             date: "TUE, JUNE 18 - 18:00 AEST",
             attendees: "86",
-            cost: "Free"
+            cost: "25"
         },
         {
             image: "https://placehold.co/300x200",
@@ -85,7 +85,7 @@ const Events = () => {
             host: "Melbourne Art and Social Space",
             date: "SUN, JUNE 9 - 14:00 AEST",
             attendees: "6",
-            cost: "Free"
+            cost: "52"
         },
         {
             image: "https://placehold.co/300x200",

@@ -16,7 +16,7 @@ function Header() {
                     <Navbar.Brand href='/'>
                         <Image
                             className='meetu-logo'
-                            src='meetu_logo_512.png'
+                            src='logo.png'
                             alt='MeetU'
                         />
                     </Navbar.Brand>
