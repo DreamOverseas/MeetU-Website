@@ -18,7 +18,6 @@ function Header() {
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ml-auto'>
-                            <Nav.Link href='/events'>Events</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </div>
