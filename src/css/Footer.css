@@ -6,17 +6,24 @@
     padding: 1rem 10px;
 }
 
+.footer-links {
+    padding: 1rem 10px;
+    align-items: center;
+    justify-content: center;
+}
+
 .footer-content {
-  width: 100%;
+    width: 100%;
 }
 
 .footer-custom .row {
-  align-items: center;
+    align-items: center;
 }
 
 .footer-custom .text-md-right {
-  text-align: right;
+    text-align: right;
 }
+
 .footer-logo {
-  max-height: 50px; /* adjust heights of the logo image */
+    max-height: 50px; /* adjust heights of the logo image */
 }
