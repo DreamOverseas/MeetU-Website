@@ -15,6 +15,8 @@ function Header() {
                     <Navbar.Brand href='/' className='navbar-brand'>
                         MeetU
                     </Navbar.Brand>
+                    <Nav.Link href='/Events'>Events</Nav.Link>
+                    <Nav.Link href='/Sponsors'>Sponsors</Nav.Link>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ml-auto'>
