@@ -17,6 +17,7 @@ function Header() {
                     </Navbar.Brand>
                     <Nav.Link href='/Events'>Events</Nav.Link>
                     <Nav.Link href='/Sponsors'>Sponsors</Nav.Link>
+                    <Nav.Link href='/About-Us'>About Us</Nav.Link>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ml-auto'>

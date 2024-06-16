@@ -8,7 +8,8 @@ import Home from "./pages/Home";
 import Events from "./pages/Events";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Sponsors from "./pages/Sponsors"
+import Sponsors from "./pages/Sponsors";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                   <Route exact path='/Login' element={<Login />} />
                   <Route exact path='/Register' element={<Register />} />
                   <Route exact path='/Sponsors' element={<Sponsors />} />
+                  <Route exact path='/About-Us' element={<About />} />
         </Routes>
         <Footer />
       </div>
