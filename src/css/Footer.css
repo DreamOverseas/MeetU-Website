@@ -1,29 +1,15 @@
-/* src/Css/footer.css */
+/* src/css/footer.css */
 
-.footer-custom {
+.meetu-footer {
     background: #969696;
     color: black;
-    padding: 1rem 10px;
+    padding: 5px 10px;
 }
 
-.footer-links {
-    padding: 1rem 10px;
-    align-items: center;
-    justify-content: center;
-}
-
-.footer-content {
+.footer-modal-button {
     width: 100%;
 }
 
-.footer-custom .row {
-    align-items: center;
-}
-
-.footer-custom .text-md-right {
-    text-align: right;
-}
-
-.footer-logo {
-    max-height: 50px; /* adjust heights of the logo image */
+.footer-contact-info{
+    text-align:end;
 }
