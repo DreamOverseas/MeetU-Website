@@ -2,7 +2,7 @@
 // Event page contains a various showcase of our events, aimed for attracting viewers to attend > Link to Membership
 import "../css/Sponsors.css";
 import React from 'react';
-import {Container, Row, Col, Card, Button, Image, ListGroup} from 'react-bootstrap';
+import {Container, Row, Col, Card, Image} from 'react-bootstrap';
 
 
 // Later we can get these from cloud, use these examples crawled for now
@@ -39,7 +39,7 @@ const videos = [
     }
 ];
 
-function EventCard({ image, title, host, date, attendees, cost }) {
+function EventCard({ image}) {
     return (
         <Col md={4} className="mb-4">
             <Card>
@@ -49,7 +49,7 @@ function EventCard({ image, title, host, date, attendees, cost }) {
     );
 };
 
-function VideoCard({ image, title, host, date, attendees, cost }) {
+function VideoCard({ image}) {
     return (
         <Col md={10} className="mb-4">
             <Card>
@@ -64,7 +64,7 @@ export default function Sponsors() {
         <div>
             <section className="banner-section">
                 <Image src="../../Banner-Sponsor.jpg" fluid/>
-                <h1 className = "banner-h1">Our Sponsors and Partners</h1>
+                <h1 className = "sponsor-banner-h1">Our Sponsors and Partners</h1>
             </section>
             <br />
             <Container fluid>
@@ -94,7 +94,7 @@ export default function Sponsors() {
                             </Row>
                             <Row>
                                 <div className="index-item">
-                                    <h4><a href="#contact-us">Contact Us</a></h4>
+                                    <h4><a href="#contact-us">Join Us</a></h4>
                                     <hr></hr>
                                 </div>
                             </Row>
@@ -149,7 +149,7 @@ export default function Sponsors() {
                         </Row>
                         <Row id="contact-us">
                             <h2 className="my-5">
-                                Contact Us
+                                Join Us
                             </h2>
                             <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
