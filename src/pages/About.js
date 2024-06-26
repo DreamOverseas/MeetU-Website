@@ -8,37 +8,37 @@ import {Container, Row, Col, Card, Button, Image, ListGroup} from 'react-bootstr
 // Later we can get these from cloud, use these examples crawled for now
 const members = [
     {
-        image: "https://placehold.co/300x200",
+        image: "../people-demo.jpg",
         name: "Alice Swtcher",
         title: "Founder",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
-        image: "https://placehold.co/300x200",
+        image: "../people-demo.jpg",
         name: "Alice Swtcher",
         title: "Founder",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
-        image: "https://placehold.co/300x200",
+        image: "../people-demo.jpg",
         name: "Alice Swtcher",
         title: "Founder",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
-        image: "https://placehold.co/300x200",
+        image: "../people-demo.jpg",
         name: "Alice Swtcher",
         title: "Founder",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
-        image: "https://placehold.co/300x200",
+        image: "../people-demo.jpg",
         name: "Alice Swtcher",
         title: "Founder",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
-        image: "https://placehold.co/300x200",
+        image: "../people-demo.jpg",
         name: "Alice Swtcher",
         title: "Founder",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -50,7 +50,7 @@ function MemberCard({ image, name, title, description }) {
     return (
         <Col md={4} className="mb-4">
                 <Card>
-                    <Card.Img variant="top" src={image} />
+                    <Card.Img variant="top" src={image} fluid />
                     <Card.Body>
                         <Card.Title>{name}</Card.Title>
                         <Card.Text>{title}</Card.Text>
@@ -68,7 +68,7 @@ export default function About() {
             <Container className="about-us-banner-section">
                 <Row>
                     <Col>
-                        <Image src="https://placehold.co/550x600" fluid className="about-banner-image"/>
+                        <Image src="../about-us.jpg" fluid className="about-banner-image"/>
                     </Col>
                     <Col>
                         <p className="about-banner-text-1">
@@ -89,7 +89,7 @@ export default function About() {
                         </p> 
                     </Col>
                     <Col>
-                        <Image src="https://placehold.co/550x600" fluid className="about-banner-image"/>
+                        <Image src="../our-aim.jpg" fluid className="about-banner-image"/>
                     </Col>
                 </Row>
                 <h1 className = "about-banner-h1">OUR AIMS</h1>

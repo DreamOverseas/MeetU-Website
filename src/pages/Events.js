@@ -20,10 +20,29 @@ const Events = () => {
         return (
             <Col md={4} className="mb-4">
                 <Card>
-                    <Card.Img variant="top" src={image} />
+                    <Card.Img variant="top" src={image} fluid/>
                     <Card.Body>
-                        <Card.Title>{title}</Card.Title>
-                        <Card.Text>Hosted by: {host}</Card.Text>
+                        <Card.Title 
+                            style={{
+                                whiteSpace: 'nowrap',
+                                height: '30px',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                fontSize: '18px'
+                                }}
+                            title={title}>
+                            {title}
+                        </Card.Title>
+                        <Card.Text style={{
+                                whiteSpace: 'nowrap',
+                                height: '20px',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                fontSize: '14px'
+                                }}
+                            title={host}>
+                            Hosted by: {host}
+                        </Card.Text>
                         <Card.Text>
                             <i class="bi bi-calendar-event"></i> {date}
                         </Card.Text>
@@ -40,7 +59,7 @@ const Events = () => {
     // Later we can get these from cloud, use these examples crawled for now
     const events = [
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "Small dog meetup to celebrate Frankie's birthday",
             host: "Small Dogs Meetup Group",
             date: "SUN, JUNE 16 - 09:00 AEST",
@@ -48,7 +67,7 @@ const Events = () => {
             cost: "Free"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "The Future of Work: Navigating the Impact of Generative AI",
             host: "Responsible AI Melbourne",
             date: "MON, JUNE 17 - 17:30 AEST",
@@ -56,7 +75,7 @@ const Events = () => {
             cost: "20"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "Let's Get Together for Breakfast/Coffee and Plan/Embark On Our Next Adventure!!!",
             host: "Explore Victoria - Weekend Adventures in Regional...",
             date: "SAT, JUNE 8 - 08:00 AEST",
@@ -64,7 +83,7 @@ const Events = () => {
             cost: "Free"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "Join Us for the Ultimate Culture Exchange Party in Collingwood!",
             host: "Spectrum",
             date: "SAT, JUNE 8 - 18:00 AEST",
@@ -72,7 +91,7 @@ const Events = () => {
             cost: "105"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "v28_Free-Mahi-Mahi!",
             host: "DesignOps LOL",
             date: "TUE, JUNE 18 - 18:00 AEST",
@@ -80,7 +99,7 @@ const Events = () => {
             cost: "25"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "Art Open Space",
             host: "Melbourne Art and Social Space",
             date: "SUN, JUNE 9 - 14:00 AEST",
@@ -88,7 +107,7 @@ const Events = () => {
             cost: "52"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "Join Us for the First-Ever Decision Intelligence Meetup in Australia!",
             host: "Decision Intelligence",
             date: "WED, JUNE 26 - 18:00 AEST",
@@ -96,7 +115,7 @@ const Events = () => {
             cost: "Free"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "../event-demo.jpg",
             title: "Lunch at Rocco's Burger Cafe",
             host: "Eastside Lesbian Lounge Events (ELLE) 30+",
             date: "SAT, JUNE 8 - 12:00 AEST",

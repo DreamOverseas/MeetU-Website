@@ -8,34 +8,34 @@ import {Container, Row, Col, Card, Image} from 'react-bootstrap';
 // Later we can get these from cloud, use these examples crawled for now
 const events = [
     {
-        image: "https://placehold.co/300x200"
+        image: "../sponsor.jpg"
     },
     {
-        image: "https://placehold.co/300x200"
+        image: "../sponsor.jpg"
     },
     {
-        image: "https://placehold.co/300x200"
+        image: "../sponsor.jpg"
     },
     {
-        image: "https://placehold.co/300x200"
+        image: "../sponsor.jpg"
     },
     {
-        image: "https://placehold.co/300x200"
+        image: "../sponsor.jpg"
     },
     {
-        image: "https://placehold.co/300x200"
+        image: "../sponsor.jpg"
     }
 ];
 
 const videos = [
     {
-        image: "https://placehold.co/1600x900",
+        image: "../case.jpg",
     },
     {
-        image: "https://placehold.co/1600x900",
+        image: "../case.jpg",
     },
     {
-        image: "https://placehold.co/1600x900",
+        image: "../case.jpg",
     }
 ];
 
@@ -43,7 +43,7 @@ function EventCard({ image}) {
     return (
         <Col md={4} className="mb-4">
             <Card>
-                <Card.Img variant="top" src={image} />
+                <Card.Img variant="top" src={image} fluid />
             </Card>
         </Col>
     );
@@ -53,7 +53,7 @@ function VideoCard({ image}) {
     return (
         <Col md={10} className="mb-4">
             <Card>
-                <Card.Img variant="top" src={image} />
+                <Card.Img variant="top" src={image} fluid />
             </Card>
         </Col>
     );
