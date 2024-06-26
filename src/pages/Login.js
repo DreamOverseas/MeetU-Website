@@ -16,7 +16,6 @@ const Login = () => {
         event.preventDefault();
         setSubmitted(true);
         if (email && password) {
-            // TODO: Implement login logic here when our server is ready
             console.log("Logging in with:", email, password);
         }
     };

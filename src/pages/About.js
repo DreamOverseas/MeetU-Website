@@ -2,7 +2,7 @@
 // Event page contains a various showcase of our events, aimed for attracting viewers to attend > Link to Membership
 import "../css/About.css";
 import React from 'react';
-import {Container, Row, Col, Card, Button, Image, ListGroup} from 'react-bootstrap';
+import {Container, Row, Col, Card, Image} from 'react-bootstrap';
 
 
 // Later we can get these from cloud, use these examples crawled for now

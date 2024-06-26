@@ -115,7 +115,7 @@ const Events = () => {
                         <Carousel.Item>
                             <img
                                 className="d-block w-100"
-                                src="showcases/hotpot.jpg"
+                                src="../../showcases/hotpot.jpg"
                                 alt="First slide"
                             />
                             <Carousel.Caption>
@@ -126,7 +126,7 @@ const Events = () => {
                         <Carousel.Item>
                             <img
                                 className="d-block w-100"
-                                src="showcases/beach.jpg"
+                                src="../../showcases/beach.jpg"
                                 alt="Second slide"
                             />
                             <Carousel.Caption>
@@ -137,7 +137,7 @@ const Events = () => {
                         <Carousel.Item>
                             <img
                                 className="d-block w-100"
-                                src="showcases/wetlands.jpg"
+                                src="../../showcases/wetlands.jpg"
                                 alt="Third slide"
                             />
                             <Carousel.Caption>

@@ -14,7 +14,7 @@ const Footer = () => {
             <Container>
                 <Row className="align-items-center">
                     <Col md={4}>
-                        <Image src="logo.png" alt="MeetU" style={{ width: '150px' }} />
+                        <Image src="../../logo.png" alt="MeetU" style={{ width: '150px' }} />
                     </Col>
                     { /* Place holder for now, please put real contact info later */ }
                     <Col md={4}>
