@@ -11,7 +11,7 @@ function Header() {
         <header>
             <Navbar expand='lg' className='navbar-custom'>
                 <div className='navbar-content'>
-                    <Image className="nav-logo" src="logo.png" />
+                    <Image className="nav-logo" src="../../logo.png" />
                     <Navbar.Brand href='/' className='navbar-brand'>
                         MeetU
                     </Navbar.Brand>

@@ -1,8 +1,10 @@
 {
   "name": "meetu",
-  "version": "0.1.0",
+  "version": "0.3.2",
   "private": true,
+  "homepage": "http://meetu.life",
   "dependencies": {
+    "@react-aria/ssr": "^3.9.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
