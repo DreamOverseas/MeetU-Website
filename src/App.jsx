@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Heart, 
   Menu, 
@@ -10,7 +10,10 @@ import {
   CheckCircle, 
   Search, 
   Users, 
-  Calendar 
+  Calendar,
+  Clock,       // Added for Event Time
+  DollarSign,  // Added for Price
+  ArrowRight   // Added for buttons
 } from 'lucide-react';
 
 // --- Component Definitions Start ---
@@ -21,6 +24,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
 
   const navItems = [
     { id: 'home', label: '主页' },
+    { id: 'activities', label: '精彩活动' }, // Added Activities Link
     { id: 'male-form', label: '男生报名' },
     { id: 'female-form', label: '女生报名' },
     { id: 'about', label: '关于我们' },
@@ -42,7 +46,6 @@ const Navbar = ({ activeTab, setActiveTab }) => {
               alt="Meetu Logo" 
               className="h-12 w-auto object-contain"
               onError={(e) => {
-                // If image loading fails, display text logo as fallback
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'flex';
               }}
@@ -111,7 +114,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
   );
 };
 
-// 2. Footer Component
+// 2. Footer Component (Unchanged)
 const Footer = () => {
   return (
     <footer className="bg-slate-900 text-white pt-12 pb-8">
@@ -130,9 +133,9 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Contact Information (Core Requirement) */}
+          {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white">联系我们要</h3>
+            <h3 className="text-lg font-semibold text-white">联系我们</h3>
             <div className="space-y-3">
                <div className="flex items-start gap-3 text-gray-400">
                 <MapPin className="w-5 h-5 text-rose-500 mt-1 flex-shrink-0" />
@@ -173,7 +176,7 @@ const Footer = () => {
   );
 };
 
-// 3. Home Page Component
+// 3. Home Page Component (Unchanged)
 const Home = ({ onNavigate }) => {
   return (
     <div className="flex flex-col min-h-screen">
@@ -249,7 +252,182 @@ const Home = ({ onNavigate }) => {
   );
 };
 
-// 4. Generic Registration Form Component
+// 4. Activity/Events Page Component (NEW)
+const Activities = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Constants
+  const API_URL = 'https://api.do360.com/api/meet-u-events';
+  const BASE_URL = 'https://api.do360.com'; // Used if image paths are relative
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const json = await response.json();
+        
+        // Handle different Strapi/API response structures
+        // Structure assumption: { data: [...] } or just [...]
+        const data = json.data ? json.data : json;
+        setEvents(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Failed to fetch events:", err);
+        setError("暂无法加载活动信息，请稍后再试。");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  // Helper to get image URL safely
+  const getImageUrl = (imageObj) => {
+    if (!imageObj) return null;
+    // Strapi style: imageObj.attributes.url or imageObj.url
+    const url = imageObj.url || (imageObj.attributes && imageObj.attributes.url);
+    if (!url) return null;
+    
+    // If it's already an absolute URL, return it
+    if (url.startsWith('http')) return url;
+    // Otherwise append to base URL
+    return `${BASE_URL}${url}`;
+  };
+
+  // Helper to format date
+  const formatDate = (dateString) => {
+    if (!dateString) return '待定';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('zh-CN', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      weekday: 'short'
+    });
+  };
+
+  const formatTime = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('zh-CN', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-gray-50 min-h-screen py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl font-bold text-slate-900 mb-4">Meetu 精彩线下活动</h1>
+          <p className="text-gray-500 max-w-2xl mx-auto">
+            从轻松的桌游聚会到高端的酒会晚宴，我们定期举办各类线下活动，让您在自然的氛围中邂逅那个TA。
+          </p>
+        </div>
+
+        {error ? (
+           <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+             <p className="text-red-500">{error}</p>
+           </div>
+        ) : events.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+             <p className="text-gray-500">近期暂无活动，敬请期待！</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {events.map((event) => {
+              // Handle Strapi's "attributes" nesting if present, otherwise use event directly
+              const item = event.attributes ? { ...event.attributes, id: event.id } : event;
+              const imageUrl = getImageUrl(item.poster);
+
+              return (
+                <div key={item.id || Math.random()} className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
+                  {/* Image Container */}
+                  <div className="relative h-56 bg-gray-200 overflow-hidden group">
+                    {imageUrl ? (
+                      <img 
+                        src={imageUrl} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <Heart size={48} className="opacity-20" />
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-rose-500 shadow-sm">
+                      {item.price > 0 ? `$${item.price}` : '免费'}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold text-slate-900 mb-3 line-clamp-1">
+                      {item.title}
+                    </h3>
+
+                    <div className="space-y-3 mb-6 flex-grow">
+                      <div className="flex items-center text-gray-600 text-sm">
+                        <Calendar className="w-4 h-4 mr-2 text-rose-400 flex-shrink-0" />
+                        <span>{formatDate(item.date)}</span>
+                      </div>
+                      
+                      <div className="flex items-center text-gray-600 text-sm">
+                        <Clock className="w-4 h-4 mr-2 text-rose-400 flex-shrink-0" />
+                        <span>{formatTime(item.date)}</span>
+                      </div>
+
+                      <div className="flex items-start text-gray-600 text-sm">
+                        <MapPin className="w-4 h-4 mr-2 text-rose-400 mt-0.5 flex-shrink-0" />
+                        <span className="line-clamp-2">{item.event_address}</span>
+                      </div>
+                      
+                      {/* Slots Info */}
+                      <div className="flex items-center gap-4 text-xs font-medium pt-2">
+                        <div className="flex items-center text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                          <Users className="w-3 h-3 mr-1" />
+                          男生: {item.max_male_slots || '-'}位
+                        </div>
+                        <div className="flex items-center text-rose-600 bg-rose-50 px-2 py-1 rounded">
+                          <Users className="w-3 h-3 mr-1" />
+                          女生: {item.max_female_slots || '-'}位
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="text-gray-500 text-sm line-clamp-2 mb-5">
+                      {item.event_description}
+                    </p>
+
+                    <button className="w-full py-3 bg-slate-900 hover:bg-rose-500 text-white rounded-xl font-medium transition flex items-center justify-center gap-2 group">
+                      查看详情 & 报名
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// 5. Generic Registration Form Component (Unchanged)
 const RegistrationForm = ({ gender }) => {
   const isMale = gender === 'male';
   const themeColor = isMale ? 'blue' : 'rose';
@@ -374,7 +552,7 @@ const RegistrationForm = ({ gender }) => {
   );
 };
 
-// 5. About Us Component
+// 6. About Us Component (Unchanged)
 const About = () => {
   return (
     <div className="bg-white min-h-screen">
@@ -408,7 +586,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* Contact Card (Core Requirement) */}
+        {/* Contact Card */}
         <section className="bg-white border border-gray-200 rounded-2xl shadow-lg p-8 md:p-10">
           <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">联系我们</h2>
           
@@ -484,6 +662,8 @@ const App = () => {
     switch (activeTab) {
       case 'home':
         return <Home onNavigate={setActiveTab} />;
+      case 'activities': // Added case for Activities
+        return <Activities />;
       case 'male-form':
         return <RegistrationForm gender="male" />;
       case 'female-form':
