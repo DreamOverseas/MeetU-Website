@@ -13,9 +13,9 @@ import {
   Calendar 
 } from 'lucide-react';
 
-// --- 组件定义开始 ---
+// --- Component Definitions Start ---
 
-// 1. 导航栏组件
+// 1. Navigation Bar Component
 const Navbar = ({ activeTab, setActiveTab }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -35,25 +35,24 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
-          {/* Logo 区域 */}
+          {/* Logo Area */}
           <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => handleNavClick('home')}>
             <img 
               src="src/assets/logo.png" 
               alt="Meetu Logo" 
               className="h-12 w-auto object-contain"
               onError={(e) => {
-                // 如果图片加载失败，显示文字 Logo 作为后备
+                // If image loading fails, display text logo as fallback
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'flex';
               }}
             />
-            <div className="hidden flex items-center gap-2 text-rose-500 font-bold text-2xl ml-2">
-              <Heart fill="currentColor" />
+            <div className="flex items-center gap-2 text-rose-500 font-bold text-2xl ml-2">
               <span>Meetu 觅友</span>
             </div>
           </div>
 
-          {/* 桌面端菜单 */}
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <button
@@ -76,7 +75,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
             </button>
           </div>
 
-          {/* 移动端菜单按钮 */}
+          {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -88,7 +87,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
         </div>
       </div>
 
-      {/* 移动端下拉菜单 */}
+      {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -112,13 +111,13 @@ const Navbar = ({ activeTab, setActiveTab }) => {
   );
 };
 
-// 2. 页脚组件
+// 2. Footer Component
 const Footer = () => {
   return (
     <footer className="bg-slate-900 text-white pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* 公司简介 */}
+          {/* Company Introduction */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-rose-400 font-bold text-xl">
               <Heart fill="currentColor" />
@@ -131,7 +130,7 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* 联系方式 (核心需求) */}
+          {/* Contact Information (Core Requirement) */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white">联系我们要</h3>
             <div className="space-y-3">
@@ -154,7 +153,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* 快速链接 */}
+          {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white">服务条款</h3>
             <ul className="space-y-2 text-gray-400 text-sm">
@@ -174,7 +173,7 @@ const Footer = () => {
   );
 };
 
-// 3. 主页组件
+// 3. Home Page Component
 const Home = ({ onNavigate }) => {
   return (
     <div className="flex flex-col min-h-screen">
@@ -190,33 +189,33 @@ const Home = ({ onNavigate }) => {
               <span className="text-rose-500">遇见</span> 对的人
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-              Meetu 觅友，专为澳洲华人打造的真实、高效、私密的婚恋交友平台。
-              无论是墨尔本的咖啡馆，还是悉尼的歌剧院旁，我们帮您找到那个TA。
+              Meetu 觅友,专为澳洲华人打造的真实、高效、私密的单身交友平台。
+              无论是墨尔本的咖啡馆,还是悉尼的歌剧院旁,我们帮您找到那个TA。
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button 
                 onClick={() => onNavigate('male-form')}
                 className="px-8 py-4 bg-blue-600 text-white rounded-full font-bold shadow-lg hover:bg-blue-700 transition transform hover:-translate-y-1"
               >
-                我是男生，寻找缘分
+                我是男生,寻找缘分
               </button>
               <button 
                 onClick={() => onNavigate('female-form')}
                 className="px-8 py-4 bg-rose-500 text-white rounded-full font-bold shadow-lg hover:bg-rose-600 transition transform hover:-translate-y-1"
               >
-                我是女生，期待邂逅
+                我是女生,期待邂逅
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 特色板块 */}
+      {/* Features Section */}
       <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">为什么选择 Meetu 觅友?</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto">我们不仅仅是一个网站，更是您通往幸福的桥梁。专业的服务，严格的审核，只为最真诚的您。</p>
+            <p className="text-gray-500 max-w-2xl mx-auto">我们不仅仅是一个网站,更是您通往幸福的桥梁。专业的服务,严格的审核,只为最真诚的您。</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -225,7 +224,7 @@ const Home = ({ onNavigate }) => {
                 <CheckCircle className="text-rose-500 w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-slate-800">严格实名认证</h3>
-              <p className="text-gray-600">所有会员均需经过严格的人工审核与身份认证，确保每一份资料的真实性。</p>
+              <p className="text-gray-600">所有会员均需经过严格的人工审核与身份认证,确保每一份资料的真实性。</p>
             </div>
             
             <div className="p-8 rounded-2xl bg-gray-50 hover:bg-rose-50 transition duration-300 text-center group">
@@ -233,15 +232,15 @@ const Home = ({ onNavigate }) => {
                 <Users className="text-rose-500 w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-slate-800">海量优质会员</h3>
-              <p className="text-gray-600">汇聚澳洲各行各业的精英人士，包括留学生、职场白领、创业者及成功人士。</p>
+              <p className="text-gray-600">汇聚澳洲各行各业的精英人士,包括留学生、职场白领、创业者及成功人士。</p>
             </div>
 
             <div className="p-8 rounded-2xl bg-gray-50 hover:bg-rose-50 transition duration-300 text-center group">
               <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition">
                 <Heart className="text-rose-500 w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-slate-800">精准人工匹配</h3>
-              <p className="text-gray-600">除了智能算法，我们还有专业的红娘团队为您提供一对一的牵线服务。</p>
+              <h3 className="text-xl font-bold mb-3 text-slate-800">智能算法匹配</h3>
+              <p className="text-gray-600">除了智能算法,我们还有专业的红娘团队为您提供一对一的牵线服务。</p>
             </div>
           </div>
         </div>
@@ -250,7 +249,7 @@ const Home = ({ onNavigate }) => {
   );
 };
 
-// 4. 通用报名表单组件
+// 4. Generic Registration Form Component
 const RegistrationForm = ({ gender }) => {
   const isMale = gender === 'male';
   const themeColor = isMale ? 'blue' : 'rose';
@@ -263,7 +262,7 @@ const RegistrationForm = ({ gender }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 模拟提交
+    // Simulate submission
     setTimeout(() => {
       setSubmitted(true);
       window.scrollTo(0,0);
@@ -276,9 +275,9 @@ const RegistrationForm = ({ gender }) => {
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
           <CheckCircle className="w-10 h-10 text-green-500" />
         </div>
-        <h2 className="text-3xl font-bold text-slate-800 mb-4">提交成功！</h2>
+        <h2 className="text-3xl font-bold text-slate-800 mb-4">提交成功!</h2>
         <p className="text-gray-600 max-w-md">
-          感谢您的注册。我们的红娘顾问（John Du 或团队成员）将在24小时内审核您的资料并与您取得联系。
+          感谢您的注册。我们的红娘顾问(John Du 或团队成员)将在24小时内审核您的资料并与您取得联系。
         </p>
         <button 
           onClick={() => setSubmitted(false)}
@@ -295,14 +294,14 @@ const RegistrationForm = ({ gender }) => {
       <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className={`${isMale ? 'bg-blue-600' : 'bg-rose-500'} px-6 py-8 text-center`}>
           <h2 className="text-3xl font-bold text-white tracking-wide">{title}</h2>
-          <p className="text-white/80 mt-2">填写详细资料，让我们为您找到最匹配的另一半</p>
+          <p className="text-white/80 mt-2">填写详细资料,让我们为您找到最匹配的另一半</p>
         </div>
 
         <form onSubmit={handleSubmit} className="px-8 py-10 space-y-6">
-          {/* 基本信息 */}
+          {/* Basic Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">姓名 / 昵称</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">姓名</label>
               <input required type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition" placeholder="请输入您的名字" />
             </div>
             <div>
@@ -333,11 +332,11 @@ const RegistrationForm = ({ gender }) => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">职业</label>
-              <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition" placeholder="例如：会计师, 工程师" />
+              <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition" placeholder="例如:会计师, 工程师" />
             </div>
           </div>
 
-          {/* 联系方式 */}
+          {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">手机号码 (+61)</label>
@@ -349,21 +348,21 @@ const RegistrationForm = ({ gender }) => {
             </div>
           </div>
 
-          {/* 详细介绍 */}
+          {/* Detailed Introduction */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">自我介绍</label>
             <textarea rows="4" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition" placeholder="说说您的性格、爱好以及对另一半的期望..."></textarea>
           </div>
 
-          {/* 择偶标准 (简化版) */}
+          {/* Partner Criteria (Simplified Version) */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">择偶要求（年龄、身高、地域等）</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">择偶要求(年龄、身高、地域等)</label>
             <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition" placeholder="简单描述您的理想型" />
           </div>
 
           <div className="pt-4">
             <button type="submit" className={buttonClass}>
-              提交资料，开始寻爱之旅
+              提交资料,开始寻爱之旅
             </button>
             <p className="text-xs text-gray-500 text-center mt-3">
               点击提交即表示您同意我们的服务条款。您的隐私将受到严格保护。
@@ -375,7 +374,7 @@ const RegistrationForm = ({ gender }) => {
   );
 };
 
-// 5. 关于我们组件
+// 5. About Us Component
 const About = () => {
   return (
     <div className="bg-white min-h-screen">
@@ -386,32 +385,32 @@ const About = () => {
 
       <div className="max-w-4xl mx-auto px-4 py-16 space-y-12">
         
-        {/* 公司愿景 */}
+        {/* Company Vision */}
         <section>
           <h2 className="text-2xl font-bold text-slate-900 mb-4 border-l-4 border-rose-500 pl-4">我们的使命</h2>
           <p className="text-gray-600 leading-relaxed text-lg">
-            Meetu (觅友) 致力于为在澳华人提供最真实、最高效的婚恋交友平台。我们深知在异国他乡寻找灵魂伴侣的不易，因此我们结合了线上精准匹配与线下贴心服务，旨在打破社交圈层的壁垒，让每一位渴望爱情的单身男女都能在这里找到归属。
+            Meetu (觅友) 致力于为在澳华人提供最真实、最高效的婚恋交友平台。我们深知在异国他乡寻找灵魂伴侣的不易,因此我们结合了线上精准匹配与线下贴心服务,旨在打破社交圈层的壁垒,让每一位渴望爱情的单身男女都能在这里找到归属。
           </p>
         </section>
 
-        {/* 我们的优势 */}
+        {/* Our Advantages */}
         <section>
           <h2 className="text-2xl font-bold text-slate-900 mb-6 border-l-4 border-rose-500 pl-4">为什么信任我们</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="font-bold text-lg mb-2 text-rose-600">澳洲本土深耕</h3>
-              <p className="text-gray-600">扎根墨尔本，辐射全澳洲。我们拥有丰富的本地资源和高端会员库。</p>
+              <p className="text-gray-600">扎根墨尔本,辐射全澳洲。我们拥有丰富的本地资源和高端会员库。</p>
             </div>
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="font-bold text-lg mb-2 text-rose-600">隐私绝对安全</h3>
-              <p className="text-gray-600">严格的数据保护机制，您的个人联系方式只会在双方互相同意后才会交换。</p>
+              <p className="text-gray-600">严格的数据保护机制,您的个人联系方式只会在双方互相同意后才会交换。</p>
             </div>
           </div>
         </section>
 
-        {/* 联系卡片 (核心需求) */}
+        {/* Contact Card (Core Requirement) */}
         <section className="bg-white border border-gray-200 rounded-2xl shadow-lg p-8 md:p-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">联系我们 / Contact Us</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">联系我们</h2>
           
           <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
             <div className="space-y-6 flex-1 w-full">
@@ -421,7 +420,7 @@ const About = () => {
                   <User className="w-6 h-6 text-rose-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-500 uppercase">Director / 负责人</h4>
+                  <h4 className="text-sm font-semibold text-gray-500 uppercase">负责人</h4>
                   <p className="text-xl font-bold text-slate-800">John Du</p>
                 </div>
               </div>
@@ -431,7 +430,7 @@ const About = () => {
                   <MapPin className="w-6 h-6 text-rose-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-500 uppercase">Address / 地址</h4>
+                  <h4 className="text-sm font-semibold text-gray-500 uppercase">地址</h4>
                   <p className="text-lg text-slate-800">Level 2, 171 La Trobe Street</p>
                   <p className="text-lg text-slate-800">Melbourne VIC 3000</p>
                 </div>
@@ -445,7 +444,7 @@ const About = () => {
                   <Phone className="w-6 h-6 text-rose-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-500 uppercase">Phone / 电话</h4>
+                  <h4 className="text-sm font-semibold text-gray-500 uppercase">电话</h4>
                   <p className="text-xl font-bold text-slate-800 tracking-wide">+61 (04)1316 8533</p>
                 </div>
               </div>
@@ -455,7 +454,7 @@ const About = () => {
                   <Mail className="w-6 h-6 text-rose-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-500 uppercase">Email / 邮箱</h4>
+                  <h4 className="text-sm font-semibold text-gray-500 uppercase">邮箱</h4>
                   <a href="mailto:john.du@do360.com" className="text-lg text-rose-600 font-medium hover:underline">
                     john.du@do360.com
                   </a>
@@ -465,7 +464,7 @@ const About = () => {
           </div>
           
           <div className="mt-10 pt-6 border-t border-gray-100 text-center">
-             <p className="text-gray-500 italic">"期待您的来电，让我们助您找到幸福。"</p>
+             <p className="text-gray-500 italic">"期待您的联系,让我们助您找到幸福。"</p>
           </div>
         </section>
 
@@ -474,13 +473,13 @@ const About = () => {
   );
 };
 
-// --- 主程序入口 ---
+// --- Main Application Entry ---
 
 const App = () => {
-  // 状态管理：控制当前显示的页面
+  // State Management: Controls the currently displayed page
   const [activeTab, setActiveTab] = useState('home');
 
-  // 简单的路由逻辑
+  // Simple routing logic
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
