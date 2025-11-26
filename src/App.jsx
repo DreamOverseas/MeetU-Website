@@ -14,24 +14,40 @@ import {
   Clock,
   DollarSign,
   ArrowRight,
-  Loader2
+  Loader2,
+  ChevronLeft,
+  ImageIcon
 } from 'lucide-react';
 
 // --- Shared Constants & Helpers ---
 
 const API_BASE_URL = 'https://api.do360.com';
-const EVENTS_API_URL = `${API_BASE_URL}/api/meet-u-events`;
-const APPLICANTS_API_URL = `${API_BASE_URL}/api/meet-u-event-applicants-p`; // Updated URL as requested
+const EVENTS_API_URL = `${API_BASE_URL}/api/meet-u-events?populate=*`; // Added populate=* to fetch gallery/media
+const APPLICANTS_API_URL = `${API_BASE_URL}/api/meet-u-event-applicants-p`; 
 
 // Helper to get image URL safely (handles Strapi relative paths)
 const getImageUrl = (imageObj) => {
   if (!imageObj) return null;
-  // Handle different potential structures
-  const url = imageObj.url || (imageObj.attributes && imageObj.attributes.url);
+  // Handle different potential structures (Strapi v3/v4/Cloudinary)
+  let url = null;
+  
+  if (typeof imageObj === 'string') url = imageObj;
+  else if (imageObj.url) url = imageObj.url;
+  else if (imageObj.attributes && imageObj.attributes.url) url = imageObj.attributes.url;
+  else if (imageObj.data && imageObj.data.attributes && imageObj.data.attributes.url) url = imageObj.data.attributes.url;
+  
   if (!url) return null;
   
   if (url.startsWith('http')) return url;
   return `${API_BASE_URL}${url}`;
+};
+
+// Helper to get array of gallery images
+const getGalleryUrls = (galleryObj) => {
+  if (!galleryObj) return [];
+  const data = galleryObj.data || galleryObj;
+  if (!Array.isArray(data)) return [];
+  return data.map(img => getImageUrl(img)).filter(Boolean);
 };
 
 // Helper to format date
@@ -58,7 +74,7 @@ const formatTime = (dateString) => {
 // --- Component Definitions Start ---
 
 // 1. Navigation Bar Component
-const Navbar = ({ activeTab, setActiveTab }) => {
+const Navbar = ({ activeTab, setActiveTab, onResetSelection }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
@@ -71,6 +87,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
 
   const handleNavClick = (id) => {
     setActiveTab(id);
+    if (onResetSelection) onResetSelection(); // Reset selected event when clicking nav
     setIsMenuOpen(false);
   };
 
@@ -216,7 +233,7 @@ const Footer = () => {
 };
 
 // 3. Home Page Component
-const Home = ({ onNavigate }) => {
+const Home = ({ onNavigate, onEventClick }) => {
   const [recentEvents, setRecentEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -276,7 +293,7 @@ const Home = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Latest Activities Section (New) */}
+      {/* Latest Activities Section */}
       <div className="py-16 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-10">
@@ -305,7 +322,7 @@ const Home = ({ onNavigate }) => {
                  return (
                    <div 
                      key={item.id || Math.random()} 
-                     onClick={() => onNavigate('activities')}
+                     onClick={() => onEventClick(item)} // Handle click
                      className="group cursor-pointer bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
                    >
                      <div className="h-48 overflow-hidden bg-gray-200 relative">
@@ -384,13 +401,16 @@ const Home = ({ onNavigate }) => {
   );
 };
 
-// 4. Activity/Events Page Component
-const Activities = () => {
+// 4. Activity List / Detail Component
+const Activities = ({ selectedEvent, onBack, onEventClick }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [applyGender, setApplyGender] = useState('male'); // For detail view toggle
 
   useEffect(() => {
+    // Only fetch if we don't have events yet (or if you want to refresh every time)
+    // Here fetching every time to be safe
     const fetchEvents = async () => {
       try {
         const response = await fetch(EVENTS_API_URL);
@@ -408,8 +428,12 @@ const Activities = () => {
       }
     };
 
-    fetchEvents();
-  }, []);
+    if (!selectedEvent) {
+        fetchEvents();
+    } else {
+        setLoading(false); // If selectedEvent is passed, we might not need to fetch list immediately
+    }
+  }, [selectedEvent]);
 
   if (loading) {
     return (
@@ -419,6 +443,141 @@ const Activities = () => {
     );
   }
 
+  // --- DETAIL VIEW ---
+  if (selectedEvent) {
+    const item = selectedEvent.attributes ? { ...selectedEvent.attributes, id: selectedEvent.id } : selectedEvent;
+    const posterUrl = getImageUrl(item.poster);
+    const galleryUrls = getGalleryUrls(item.gallery);
+
+    return (
+      <div className="bg-white min-h-screen pb-20">
+        {/* Banner / Poster Section */}
+        <div className="relative w-full bg-gray-900">
+           {/* Back Button */}
+           <div className="absolute top-4 left-4 z-10">
+            <button 
+              onClick={onBack}
+              className="flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg text-slate-900 font-medium hover:bg-white transition"
+            >
+              <ChevronLeft size={20} />
+              返回活动列表
+            </button>
+          </div>
+
+          <div className="max-w-4xl mx-auto relative aspect-video md:aspect-[21/9]">
+            {posterUrl ? (
+                <img src={posterUrl} alt={item.title} className="w-full h-full object-contain bg-black/50 backdrop-blur-xl" />
+            ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-500">
+                    <ImageIcon size={64} />
+                </div>
+            )}
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+            {/* Header Info */}
+            <div className="mb-8">
+                <div className="flex flex-wrap items-center gap-3 mb-4">
+                     <span className="bg-rose-100 text-rose-600 px-3 py-1 rounded-full text-sm font-bold">
+                        {item.price > 0 ? `$${item.price}` : '免费'}
+                     </span>
+                     <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-bold flex items-center">
+                        <Users size={14} className="mr-1"/> 男: {item.max_male_slots}位
+                     </span>
+                     <span className="bg-pink-50 text-pink-600 px-3 py-1 rounded-full text-sm font-bold flex items-center">
+                        <Users size={14} className="mr-1"/> 女: {item.max_female_slots}位
+                     </span>
+                </div>
+                <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{item.title}</h1>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600 bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                    <div className="flex items-center">
+                        <Calendar className="w-5 h-5 mr-3 text-rose-500" />
+                        <div>
+                            <p className="text-xs text-gray-400 uppercase font-semibold">日期</p>
+                            <p className="font-medium">{formatDate(item.date)}</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center">
+                        <Clock className="w-5 h-5 mr-3 text-rose-500" />
+                        <div>
+                            <p className="text-xs text-gray-400 uppercase font-semibold">时间</p>
+                            <p className="font-medium">{formatTime(item.date)}</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center md:col-span-2">
+                        <MapPin className="w-5 h-5 mr-3 text-rose-500" />
+                        <div>
+                            <p className="text-xs text-gray-400 uppercase font-semibold">地址</p>
+                            <p className="font-medium">{item.event_address}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Gallery Section */}
+            {galleryUrls.length > 0 && (
+                <div className="mb-10">
+                    <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <ImageIcon className="text-rose-500" size={20}/> 活动剪影
+                    </h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {galleryUrls.map((url, index) => (
+                            <div key={index} className="rounded-xl overflow-hidden shadow-sm aspect-square group">
+                                <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Description */}
+            <div className="mb-12">
+                <h2 className="text-xl font-bold text-slate-900 mb-4">活动详情</h2>
+                <div className="prose prose-slate max-w-none text-gray-600 leading-relaxed whitespace-pre-line">
+                    {item.event_description}
+                </div>
+            </div>
+
+            {/* Application Section */}
+            <div id="apply-section" className="border-t border-gray-200 pt-10">
+                <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-slate-900 mb-2">立即报名</h2>
+                    <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg inline-block text-sm max-w-xl mx-auto">
+                        <strong>注意：</strong> 报名免费。提交申请后，如果我们选中您，将会发送包含付款方式的确认邮件给您。
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    {/* Gender Tabs */}
+                    <div className="flex border-b border-gray-100">
+                        <button 
+                            onClick={() => setApplyGender('male')}
+                            className={`flex-1 py-4 font-bold text-center transition ${applyGender === 'male' ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                        >
+                            我是男生
+                        </button>
+                        <button 
+                            onClick={() => setApplyGender('female')}
+                            className={`flex-1 py-4 font-bold text-center transition ${applyGender === 'female' ? 'bg-pink-50 text-pink-600 border-b-2 border-pink-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                        >
+                            我是女生
+                        </button>
+                    </div>
+
+                    {/* The Form */}
+                    <div className="p-0">
+                        <RegistrationForm gender={applyGender} eventId={item.id} isEmbedded={true} />
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    );
+  }
+
+  // --- LIST VIEW ---
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -499,7 +658,10 @@ const Activities = () => {
                       {item.event_description}
                     </p>
 
-                    <button className="w-full py-3 bg-slate-900 hover:bg-rose-500 text-white rounded-xl font-medium transition flex items-center justify-center gap-2 group">
+                    <button 
+                        onClick={() => onEventClick(item)} 
+                        className="w-full py-3 bg-slate-900 hover:bg-rose-500 text-white rounded-xl font-medium transition flex items-center justify-center gap-2 group"
+                    >
                       查看详情 & 报名
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
                     </button>
@@ -515,9 +677,11 @@ const Activities = () => {
 };
 
 // 5. Updated Registration Form Component (Matches MeetU-Event-Applicants)
-const RegistrationForm = ({ gender }) => {
+const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
   const isMale = gender === 'male';
   const themeColor = isMale ? 'blue' : 'rose';
+  // If embedded in event detail, remove the large header title
+  const showHeader = !isEmbedded;
   const title = isMale ? '男士会员注册' : '女士会员注册';
   const buttonClass = isMale 
     ? "w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition flex items-center justify-center gap-2" 
@@ -565,7 +729,9 @@ const RegistrationForm = ({ gender }) => {
           date_of_birth: formData.date_of_birth,
           phone: formData.phone,
           email: formData.email,
-          city: formData.city
+          city: formData.city,
+          // Relation to Event (if eventId is provided)
+          ...(eventId && { meet_u_event: eventId })
         }
       };
 
@@ -582,7 +748,8 @@ const RegistrationForm = ({ gender }) => {
       }
 
       setFormState('success');
-      window.scrollTo(0,0);
+      // Only scroll to top if not embedded, otherwise user loses context
+      if (!isEmbedded) window.scrollTo(0,0);
     } catch (err) {
       console.error(err);
       setFormState('error');
@@ -592,13 +759,13 @@ const RegistrationForm = ({ gender }) => {
 
   if (formState === 'success') {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center bg-gray-50">
+      <div className={`flex flex-col items-center justify-center px-4 text-center ${isEmbedded ? 'py-10' : 'min-h-[60vh] bg-gray-50'}`}>
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
           <CheckCircle className="w-10 h-10 text-green-500" />
         </div>
         <h2 className="text-3xl font-bold text-slate-800 mb-4">提交成功!</h2>
         <p className="text-gray-600 max-w-md">
-          感谢您的注册。我们的团队成员将审核您的资料并与您取得联系。
+          感谢您的报名。我们的红娘顾问(John Du 或团队成员)将在24小时内审核您的资料并与您取得联系。
         </p>
         <button 
           onClick={() => {
@@ -621,14 +788,17 @@ const RegistrationForm = ({ gender }) => {
   }
 
   return (
-    <div className="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
-      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div className={`${isMale ? 'bg-blue-600' : 'bg-rose-500'} px-6 py-8 text-center`}>
-          <h2 className="text-3xl font-bold text-white tracking-wide">{title}</h2>
-          <p className="text-white/80 mt-2">填写详细资料,让我们为您找到最匹配的另一半</p>
-        </div>
+    <div className={isEmbedded ? "bg-white" : "bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 min-h-screen"}>
+      <div className={isEmbedded ? "" : "max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden"}>
+        
+        {showHeader && (
+          <div className={`${isMale ? 'bg-blue-600' : 'bg-rose-500'} px-6 py-8 text-center`}>
+            <h2 className="text-3xl font-bold text-white tracking-wide">{title}</h2>
+            <p className="text-white/80 mt-2">填写详细资料,让我们为您找到最匹配的另一半</p>
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit} className="px-8 py-10 space-y-6">
+        <form onSubmit={handleSubmit} className={isEmbedded ? "px-6 py-8 space-y-6" : "px-8 py-10 space-y-6"}>
           {formState === 'error' && (
             <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-4 border border-red-100">
               {errorMessage}
@@ -868,14 +1038,34 @@ const About = () => {
 const App = () => {
   // State Management: Controls the currently displayed page
   const [activeTab, setActiveTab] = useState('home');
+  // New State: Holds the data for the currently selected event for the detail view
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  // Helper to switch to detail view
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    setActiveTab('activities');
+    window.scrollTo(0,0);
+  };
+
+  // Helper to reset selection (e.g. when clicking navbar links)
+  const handleResetSelection = () => {
+    setSelectedEvent(null);
+  };
 
   // Simple routing logic
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return <Home onNavigate={setActiveTab} />;
+        return <Home onNavigate={setActiveTab} onEventClick={handleEventClick} />;
       case 'activities':
-        return <Activities />;
+        return (
+            <Activities 
+                selectedEvent={selectedEvent} 
+                onBack={() => setSelectedEvent(null)}
+                onEventClick={handleEventClick}
+            />
+        );
       case 'male-form':
         return <RegistrationForm gender="male" />;
       case 'female-form':
@@ -883,13 +1073,13 @@ const App = () => {
       case 'about':
         return <About />;
       default:
-        return <Home onNavigate={setActiveTab} />;
+        return <Home onNavigate={setActiveTab} onEventClick={handleEventClick} />;
     }
   };
 
   return (
     <div className="font-sans text-slate-900 bg-white min-h-screen flex flex-col">
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onResetSelection={handleResetSelection} />
       
       <main className="flex-grow">
         {renderContent()}
