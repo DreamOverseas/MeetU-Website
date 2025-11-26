@@ -317,7 +317,7 @@ const Home = ({ onNavigate, onEventClick }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {recentEvents.map((event) => {
                  const item = event.attributes ? { ...event.attributes, id: event.id } : event;
-                 const imageUrl = getImageUrl(item.poster);
+                 const imageUrl = getImageUrl(item.poster[0].url);
                  
                  return (
                    <div 
@@ -446,7 +446,7 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
   // --- DETAIL VIEW ---
   if (selectedEvent) {
     const item = selectedEvent.attributes ? { ...selectedEvent.attributes, id: selectedEvent.id } : selectedEvent;
-    const posterUrl = getImageUrl(item.poster);
+    const posterUrl = getImageUrl(item.poster[0].url);
     const galleryUrls = getGalleryUrls(item.gallery);
 
     return (
@@ -604,7 +604,7 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event) => {
               const item = event.attributes ? { ...event.attributes, id: event.id } : event;
-              const imageUrl = getImageUrl(item.poster);
+              const imageUrl = getImageUrl(item.poster[0].url);
 
               return (
                 <div key={item.id || Math.random()} className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
@@ -769,7 +769,7 @@ const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
         </div>
         <h2 className="text-3xl font-bold text-slate-800 mb-4">提交成功!</h2>
         <p className="text-gray-600 max-w-md">
-          感谢您的报名。我们的红娘顾问(John Du 或团队成员)将在24小时内审核您的资料并与您取得联系。
+          感谢您的报名。我们的团队成员将审核您的资料并与您取得联系。
         </p>
         <button 
           onClick={() => {
