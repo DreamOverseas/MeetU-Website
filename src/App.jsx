@@ -22,8 +22,29 @@ import {
 // --- Shared Constants & Helpers ---
 
 const API_BASE_URL = 'https://api.do360.com';
-const EVENTS_API_URL = `${API_BASE_URL}/api/meet-u-events?populate=*`; // Added populate=* to fetch gallery/media
-const APPLICANTS_API_URL = `${API_BASE_URL}/api/meet-u-event-applicants-p`; 
+const EVENTS_API_URL = `${API_BASE_URL}/api/meet-u-events?populate=*`; // 使用 plural API ID
+const APPLICANTS_API_URL = `${API_BASE_URL}/api/meet-u-event-applicants-p`; // 使用 plural API ID
+
+// 统一规范 event 结构，保证都有 documentId / id 等字段
+const normalizeEvent = (event) => {
+  if (!event) return null;
+
+  // Strapi v5 扁平结构：{ documentId, title, ... }
+  if ('documentId' in event && !event.attributes) {
+    return {
+      ...event,
+      id: event.id ?? event.documentId,
+    };
+  }
+
+  // 兼容旧的 v4 风格：{ id, attributes: {...} }
+  const attrs = event.attributes || {};
+  return {
+    ...attrs,
+    id: event.id,
+    documentId: event.documentId || event.id,
+  };
+};
 
 // Helper to get image URL safely (handles Strapi relative paths)
 const getImageUrl = (imageObj) => {
@@ -244,10 +265,10 @@ const Home = ({ onNavigate, onEventClick }) => {
         const response = await fetch(EVENTS_API_URL);
         if (response.ok) {
           const json = await response.json();
-          const data = json.data ? json.data : json;
-          const eventsArray = Array.isArray(data) ? data : [];
-          // Take first 3 events
-          setRecentEvents(eventsArray.slice(0, 3));
+          const raw = json.data ? json.data : json;
+          const eventsArray = Array.isArray(raw) ? raw : [];
+          // 统一规范 & 取前 3 条
+          setRecentEvents(eventsArray.map(normalizeEvent).slice(0, 3));
         }
       } catch (err) {
         console.error("Home: Failed to fetch events", err);
@@ -315,13 +336,12 @@ const Home = ({ onNavigate, onEventClick }) => {
              </div>
           ) : recentEvents.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {recentEvents.map((event) => {
-                 const item = event.attributes ? { ...event.attributes, id: event.id } : event;
-                 const imageUrl = getImageUrl(item.poster[0].url);
+              {recentEvents.map((item) => {
+                 const imageUrl = getImageUrl(item.poster?.[0]?.url);
                  
                  return (
                    <div 
-                     key={item.id || Math.random()} 
+                     key={item.documentId || item.id || Math.random()} 
                      onClick={() => onEventClick(item)} // Handle click
                      className="group cursor-pointer bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
                    >
@@ -409,8 +429,6 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
   const [applyGender, setApplyGender] = useState('male'); // For detail view toggle
 
   useEffect(() => {
-    // Only fetch if we don't have events yet (or if you want to refresh every time)
-    // Here fetching every time to be safe
     const fetchEvents = async () => {
       try {
         const response = await fetch(EVENTS_API_URL);
@@ -418,8 +436,9 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
           throw new Error('Network response was not ok');
         }
         const json = await response.json();
-        const data = json.data ? json.data : json;
-        setEvents(Array.isArray(data) ? data : []);
+        const raw = json.data ? json.data : json;
+        const list = Array.isArray(raw) ? raw : [raw];
+        setEvents(list.map(normalizeEvent));
       } catch (err) {
         console.error("Failed to fetch events:", err);
         setError("暂无法加载活动信息，请稍后再试。");
@@ -429,9 +448,9 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
     };
 
     if (!selectedEvent) {
-        fetchEvents();
+      fetchEvents();
     } else {
-        setLoading(false); // If selectedEvent is passed, we might not need to fetch list immediately
+      setLoading(false); // 如果已有 selectedEvent，就不阻塞 UI
     }
   }, [selectedEvent]);
 
@@ -445,8 +464,8 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
 
   // --- DETAIL VIEW ---
   if (selectedEvent) {
-    const item = selectedEvent.attributes ? { ...selectedEvent.attributes, id: selectedEvent.id } : selectedEvent;
-    const posterUrl = getImageUrl(item.poster[0].url);
+    const item = selectedEvent; // 已经是 normalize 之后的结构
+    const posterUrl = getImageUrl(item.poster?.[0]?.url);
     const galleryUrls = getGalleryUrls(item.gallery);
 
     return (
@@ -572,7 +591,8 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
 
                     {/* The Form */}
                     <div className="p-0">
-                        <RegistrationForm gender={applyGender} eventId={item.id} isEmbedded={true} />
+                      {/* 这里传入的是活动的 documentId，用于 Strapi v5 关联 */}
+                      <RegistrationForm gender={applyGender} eventId={item.documentId} isEmbedded={true} />
                     </div>
                 </div>
             </div>
@@ -602,12 +622,14 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((event) => {
-              const item = event.attributes ? { ...event.attributes, id: event.id } : event;
-              const imageUrl = getImageUrl(item.poster[0].url);
+            {events.map((item) => {
+              const imageUrl = getImageUrl(item.poster?.[0]?.url);
 
               return (
-                <div key={item.id || Math.random()} className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
+                <div
+                  key={item.documentId || item.id || Math.random()}
+                  className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
+                >
                   <div className="relative h-56 bg-gray-200 overflow-hidden group">
                     {imageUrl ? (
                       <img 
@@ -719,47 +741,56 @@ const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFormState('submitting');
-    setErrorMessage('');
+  e.preventDefault();
+  setFormState('submitting');
+  setErrorMessage('');
 
+  try {
+    const payload = {
+      data: {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        gender: formData.gender,
+        date_of_birth: formData.date_of_birth,
+        phone: formData.phone,
+        email: formData.email,
+        city: formData.city,
+        meetu_events: eventId
+          ? { connect: [{ documentId: eventId }] }
+          : undefined,
+      },
+    };
+
+    console.log('[Apply] payload to Strapi (no relation yet):', payload);
+
+    const response = await fetch(APPLICANTS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    let body = null;
     try {
-      // Strapi usually expects { data: { ... } } structure
-      const payload = {
-        data: {
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          gender: formData.gender,
-          date_of_birth: formData.date_of_birth,
-          phone: formData.phone,
-          email: formData.email,
-          city: formData.city,
-          // Relation to Event (if eventId is provided)
-          ...(eventId && { meet_u_event: eventId })
-        }
-      };
-
-      const response = await fetch(APPLICANTS_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!response.ok) {
-        throw new Error('Submission failed');
-      }
-
-      setFormState('success');
-      // Only scroll to top if not embedded, otherwise user loses context
-      if (!isEmbedded) window.scrollTo(0,0);
+      body = await response.json();
     } catch (err) {
-      console.error(err);
-      setFormState('error');
-      setErrorMessage('提交失败，请稍后重试或联系客服。');
+      console.warn('[Apply] response not JSON:', err);
     }
-  };
+
+    console.log('[Apply] response status:', response.status);
+    console.log('[Apply] response body:', body);
+
+    if (!response.ok) {
+      throw new Error(body?.error?.message || 'Submission failed');
+    }
+
+    setFormState('success');
+    if (!isEmbedded) window.scrollTo(0, 0);
+  } catch (err) {
+    console.error('[Apply] submit error:', err);
+    setFormState('error');
+    setErrorMessage('提交失败，请稍后重试或联系客服。');
+  }
+};
 
   if (formState === 'success') {
     return (
@@ -1042,7 +1073,7 @@ const About = () => {
 const App = () => {
   // State Management: Controls the currently displayed page
   const [activeTab, setActiveTab] = useState('home');
-  // New State: Holds the data for the currently selected event for the detail view
+  // Holds the data for the currently selected event for the detail view
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   // Helper to switch to detail view
