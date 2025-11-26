@@ -522,10 +522,14 @@ const Activities = ({ selectedEvent, onBack, onEventClick }) => {
                     <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                         <ImageIcon className="text-rose-500" size={20}/> 活动剪影
                     </h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="flex flex-col gap-4">
                         {galleryUrls.map((url, index) => (
-                            <div key={index} className="rounded-xl overflow-hidden shadow-sm aspect-square group">
-                                <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                            <div key={index} className="rounded-xl overflow-hidden shadow-sm w-full group">
+                                <img 
+                                    src={url} 
+                                    alt={`Gallery ${index}`} 
+                                    className="w-full h-auto object-contain group-hover:scale-[1.02] transition duration-500" 
+                                />
                             </div>
                         ))}
                     </div>
