@@ -7,7 +7,7 @@ const Navbar = ({ activeTab, setActiveTab, onResetSelection }) => {
 
   const navItems = [
     { id: "home", label: "主页" },
-    { id: "activities", label: "精彩活动123" },
+    { id: "activities", label: "精彩活动" },
     { id: "male-form", label: "男生报名" },
     { id: "female-form", label: "女生报名" },
     { id: "about", label: "关于我们" },
