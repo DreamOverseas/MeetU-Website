@@ -49,8 +49,7 @@ const Home = ({ onNavigate, onEventClick }) => {
               <span className="text-rose-500">遇见</span> 对的人
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-              Meetu 觅友,专为澳洲华人打造的真实、高效、私密的单身交友平台。
-              无论是墨尔本的咖啡馆,还是悉尼的歌剧院旁,我们帮您找到那个TA。
+              从今天开始，把寻找爱情的时间交给 AI，把心动留给真正值得的人。
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button
