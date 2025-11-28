@@ -1,0 +1,35 @@
+name: Deploy MeetU website on main updates
+
+on:
+  push:
+    branches:
+      - main # 只要 main 分支有新的提交就自动部署
+  workflow_dispatch: {} # 也可以在 Actions 页面手动点“Run workflow”
+
+concurrency:
+  group: meetu-deploy-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout (not strictly required, just standard)
+        uses: actions/checkout@v4
+
+      - name: Deploy to Alibaba ECS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.MEETU_SSH_HOST }} # 服务器 IP / 域名
+          username: ${{ secrets.MEETU_SSH_USER }} # ecs-user
+          key: ${{ secrets.MEETU_SSH_PRIVATE_KEY }} # 私钥
+          script_stop: true # 任一步失败就停止
+          command_timeout: 10m
+          script: |
+            set -euo pipefail
+            cd /home/ecs-user/MeetU-Website
+            echo "[CI] Working dir: $(pwd)"
+            chmod +x ./deploy.sh
+            ./deploy.sh
