@@ -53,7 +53,7 @@ const About = () => {
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-gray-500 uppercase">负责人</h4>
-                  <p className="text-xl font-bold text-slate-800">John Du</p>
+                  <p className="text-xl font-bold text-slate-800">Mia Ma</p>
                 </div>
               </div>
 
@@ -77,7 +77,7 @@ const About = () => {
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-gray-500 uppercase">电话</h4>
-                  <p className="text-xl font-bold text-slate-800 tracking-wide">+61 (04)1316 8533</p>
+                  <p className="text-xl font-bold text-slate-800 tracking-wide">+61 0435 938 266</p>
                 </div>
               </div>
 
@@ -88,7 +88,7 @@ const About = () => {
                 <div>
                   <h4 className="text-sm font-semibold text-gray-500 uppercase">邮箱</h4>
                   <a href="mailto:john.du@do360.com" className="text-lg text-rose-600 font-medium hover:underline">
-                    john.du@do360.com
+                    mia.mawj@gmail.com
                   </a>
                 </div>
               </div>
