@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-rose-400 font-bold text-xl">
               <img
-                src="src/assets/logo.png"
+                src="/logo.png"
                 alt="Meetu Logo"
                 className="h-12 w-auto object-contain"
                 onError={(e) => {
