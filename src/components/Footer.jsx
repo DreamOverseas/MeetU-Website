@@ -10,7 +10,17 @@ const Footer = () => {
           {/* Company Introduction */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-rose-400 font-bold text-xl">
-              <Heart fill="currentColor" />
+              <img
+                src="src/assets/logo.png"
+                alt="Meetu Logo"
+                className="h-12 w-auto object-contain"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  if (e.target.nextSibling) {
+                    e.target.nextSibling.style.display = "flex";
+                  }
+                }}
+              />
               <span>Meetu 觅友</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
