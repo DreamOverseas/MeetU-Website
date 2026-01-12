@@ -29,7 +29,7 @@ const Navbar = ({ activeTab, setActiveTab, onResetSelection }) => {
             onClick={() => handleNavClick("home")}
           >
             <img
-              src="src/assets/logo.png"
+              src="/logo.png"
               alt="Meetu Logo"
               className="h-12 w-auto object-contain"
               onError={(e) => {
