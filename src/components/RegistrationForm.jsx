@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { APPLICANTS_API_URL } from "../lib/meetuApi";
+import { mapFormDataToBaziPerson } from "../utils/baziMapper";
 
 const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
   const isMale = gender === "male";
@@ -40,6 +41,8 @@ const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const baziPerson = mapFormDataToBaziPerson(formData);
+    console.log("Bazi person payload:", baziPerson);
     setFormState("submitting");
     setErrorMessage("");
 
