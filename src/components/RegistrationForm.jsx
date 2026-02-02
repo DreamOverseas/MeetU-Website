@@ -19,6 +19,8 @@ const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
     phone: "",
     email: "",
     city: "Melbourne",
+    birth_hour: "",
+    birth_minute: "",
   });
 
   useEffect(() => {
@@ -195,35 +197,81 @@ const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
           </div>
 
           {/* Gender & DOB */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                性别 (Gender)
-              </label>
-              <select
-                name="gender"
-                value={formData.gender}
-                disabled
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none transition bg-gray-100 text-gray-500 cursor-not-allowed"
-              >
-                <option value="male">男 (Male)</option>
-                <option value="female">女 (Female)</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                出生日期 (Date of Birth)
-              </label>
-              <input
-                name="date_of_birth"
-                value={formData.date_of_birth}
-                onChange={handleChange}
-                required
-                type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
-              />
-            </div>
-          </div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Gender */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      性别 (Gender)
+    </label>
+    <select
+      name="gender"
+      value={formData.gender}
+      disabled
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none transition bg-gray-100 text-gray-500 cursor-not-allowed"
+    >
+      <option value="male">男 (Male)</option>
+      <option value="female">女 (Female)</option>
+    </select>
+  </div>
+
+  {/* Date of Birth */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      出生日期 (Date of Birth)
+    </label>
+    <input
+      name="date_of_birth"
+      value={formData.date_of_birth}
+      onChange={handleChange}
+      required
+      type="date"
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+    />
+  </div>
+
+  {/* Birth Hour */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      出生时 (Hour)
+    </label>
+    <select
+      name="birth_hour"
+      value={formData.birth_hour}
+      onChange={handleChange}
+      required
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+    >
+      <option value="">请选择</option>
+      {Array.from({ length: 24 }, (_, i) => (
+        <option key={i} value={i}>
+          {i} 时
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Birth Minute */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      出生分 (Minute)
+    </label>
+    <select
+      name="birth_minute"
+      value={formData.birth_minute}
+      onChange={handleChange}
+      required
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+    >
+      <option value="">请选择</option>
+      {Array.from({ length: 60 }, (_, i) => (
+        <option key={i} value={i}>
+          {i} 分
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
+
 
           {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

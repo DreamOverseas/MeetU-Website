@@ -1,11 +1,12 @@
 // src/App.jsx
-import React, { useState } from "react";
+import React, { useState} from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Activities from "./pages/Activities";
 import RegistrationForm from "./components/RegistrationForm";
 import About from "./pages/About";
+import { analyzeCompatibility } from "./API/baziCompatibility";
 
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
