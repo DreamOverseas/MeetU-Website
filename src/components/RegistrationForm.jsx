@@ -20,8 +20,6 @@ const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
     phone: "",
     email: "",
     city: "Melbourne",
-    birth_hour: "",
-    birth_minute: "",
   });
 
   useEffect(() => {
