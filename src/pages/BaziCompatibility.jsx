@@ -9,9 +9,6 @@ const BaziCompatibility = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  console.log("Person A:", person1);
-  console.log("Person B:", person2);
-
   const handleCalculate = async () => {
     if (!person1 || !person2) return;
 
@@ -34,6 +31,13 @@ const BaziCompatibility = () => {
     }
   };
 
+  const handleReset = () => {
+    setPerson1(null);
+    setPerson2(null);
+    setResult(null);
+    setLoading(false);
+  };
+
   return (
     <div className="max-w-4xl mx-auto py-10 space-y-6">
       <h1 className="text-3xl font-bold">
@@ -43,23 +47,32 @@ const BaziCompatibility = () => {
       <BaziPersonForm label="Person A" onChange={setPerson1} />
       <BaziPersonForm label="Person B" onChange={setPerson2} />
 
-      <button
-        onClick={handleCalculate}
-        disabled={!person1 || !person2 || loading}
-        className="px-6 py-3 bg-indigo-600 text-white rounded-lg disabled:opacity-50"
-      >
-        {loading ? "计算中..." : "计算合婚"}
-      </button>
+      <div className="flex gap-4">
+        <button
+          onClick={handleCalculate}
+          disabled={!person1 || !person2 || loading}
+          className="px-6 py-3 bg-indigo-600 text-white rounded-lg disabled:opacity-50"
+        >
+          {loading ? "计算中..." : "计算合婚"}
+        </button>
+
+        <button
+          onClick={handleReset}
+          className="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+        >
+          重置
+        </button>
+      </div>
 
       {result && (
         <div className="mt-6 p-4 bg-green-50 border rounded">
           <h2 className="text-xl font-semibold">
             匹配得分：{result.score}
           </h2>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mt-1">
             {result.score >= 90 && "天作之合 💍"}
-            {result.score >= 80 && result.score < 90 && "优秀匹配💕"}
-            {result.score >= 70 && result.score < 80 && "良好匹配🤝"}
+            {result.score >= 80 && result.score < 90 && "优秀匹配 💕"}
+            {result.score >= 70 && result.score < 80 && "良好匹配 🤝"}
             {result.score < 70 && "需要进一步分析"}
           </p>
         </div>
