@@ -41,11 +41,11 @@ const BaziCompatibility = () => {
   return (
     <div className="max-w-4xl mx-auto py-10 space-y-6">
       <h1 className="text-3xl font-bold">
-        八字合婚测试（BaZi Compatibility）
+        八字合婚测试
       </h1>
 
-      <BaziPersonForm label="Person A" onChange={setPerson1} />
-      <BaziPersonForm label="Person B" onChange={setPerson2} />
+      <BaziPersonForm label="甲方（男命/女命）" onChange={setPerson1} />
+      <BaziPersonForm label="乙方（男命/女命）" onChange={setPerson2} />
 
       <div className="flex gap-4">
         <button
@@ -53,7 +53,7 @@ const BaziCompatibility = () => {
           disabled={!person1 || !person2 || loading}
           className="px-6 py-3 bg-indigo-600 text-white rounded-lg disabled:opacity-50"
         >
-          {loading ? "计算中..." : "计算合婚"}
+          {loading ? "计算中…" : "计算合婚"}
         </button>
 
         <button
@@ -67,13 +67,13 @@ const BaziCompatibility = () => {
       {result && (
         <div className="mt-6 p-4 bg-green-50 border rounded">
           <h2 className="text-xl font-semibold">
-            匹配得分：{result.score}
+            合婚匹配得分：{result.score}
           </h2>
           <p className="text-sm text-gray-600 mt-1">
             {result.score >= 90 && "天作之合 💍"}
-            {result.score >= 80 && result.score < 90 && "优秀匹配 💕"}
-            {result.score >= 70 && result.score < 80 && "良好匹配 🤝"}
-            {result.score < 70 && "需要进一步分析"}
+            {result.score >= 80 && result.score < 90 && "上等姻缘 💕"}
+            {result.score >= 70 && result.score < 80 && "缘分尚可 🤝"}
+            {result.score < 70 && "需进一步分析"}
           </p>
         </div>
       )}
