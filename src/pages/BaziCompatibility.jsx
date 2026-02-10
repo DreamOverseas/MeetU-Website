@@ -4,13 +4,24 @@ import { analyzeCompatibility } from "../API/baziCompatibility";
 import { mapFormDataToBaziPerson } from "../utils/baziMapper";
 
 const BaziCompatibility = () => {
-  const [person1, setPerson1] = useState(null);
-  const [person2, setPerson2] = useState(null);
+  const [person1, setPerson1] = useState({});
+  const [person2, setPerson2] = useState({});
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const isValidPerson = (p) =>
+    p?.year &&
+    p?.month &&
+    p?.day &&
+    p?.gender !== undefined &&
+    p?.birth_hour !== "" &&
+    p?.birth_minute !== "";
+
   const handleCalculate = async () => {
-    if (!person1 || !person2) return;
+    if (!isValidPerson(person1) || !isValidPerson(person2)) {
+      alert("请填写双方完整的出生日期、出生时间和性别");
+      return;
+    }
 
     setLoading(true);
     setResult(null);
@@ -19,38 +30,40 @@ const BaziCompatibility = () => {
       const p1 = mapFormDataToBaziPerson(person1);
       const p2 = mapFormDataToBaziPerson(person2);
 
-      console.log("API payload:", p1, p2);
+      const payload = {
+        person1: p1,
+        person2: p2
+      };
+
+      console.log("Sending payload:", JSON.stringify(payload, null, 2));
 
       const res = await analyzeCompatibility(p1, p2);
       setResult(res);
     } catch (err) {
       console.error("Compatibility error:", err);
-      alert("计算失败，请稍后再试");
+      alert("计算失败：" + (err.message || "服务器错误，请稍后再试"));
     } finally {
       setLoading(false);
     }
   };
 
   const handleReset = () => {
-    setPerson1(null);
-    setPerson2(null);
+    setPerson1({});
+    setPerson2({});
     setResult(null);
-    setLoading(false);
   };
 
   return (
     <div className="max-w-4xl mx-auto py-10 space-y-6">
-      <h1 className="text-3xl font-bold">
-        八字合婚测试
-      </h1>
+      <h1 className="text-3xl font-bold">八字合婚测试</h1>
 
-      <BaziPersonForm label="甲方（男命/女命）" onChange={setPerson1} />
-      <BaziPersonForm label="乙方（男命/女命）" onChange={setPerson2} />
+      <BaziPersonForm label="甲方（男命 / 女命）" onChange={setPerson1} />
+      <BaziPersonForm label="乙方（男命 / 女命）" onChange={setPerson2} />
 
       <div className="flex gap-4">
         <button
           onClick={handleCalculate}
-          disabled={!person1 || !person2 || loading}
+          disabled={loading}
           className="px-6 py-3 bg-indigo-600 text-white rounded-lg disabled:opacity-50"
         >
           {loading ? "计算中…" : "计算合婚"}

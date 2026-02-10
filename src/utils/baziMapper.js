@@ -1,16 +1,14 @@
-// src/utils/baziMapper.js
-
-export function mapFormDataToBaziPerson(formData) {
-  const [year, month, day] = formData.date_of_birth
-    .split("-")
-    .map(Number);
+export function mapFormDataToBaziPerson(form) {
+  if (!form.year || !form.month || !form.day) {
+    throw new Error("出生日期不完整");
+  }
 
   return {
-    year,
-    month,
-    day,
-    hour: Number(formData.birth_hour),
-    minute: Number(formData.birth_minute),
-    gender: formData.gender === "male" ? 1 : 0,
+    year: Number(form.year),
+    month: Number(form.month),
+    day: Number(form.day),
+    hour: Number(form.birth_hour) || 0,
+    minute: Number(form.birth_minute) || 0,
+    gender: form.gender === "男" ? 1 : 0  // 1 = 男, 0 = 女
   };
 }
