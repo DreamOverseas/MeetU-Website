@@ -9,21 +9,33 @@ import Home from "./pages/Home";
 import Activities from "./pages/Activities";
 import About from "./pages/About";
 import BaziCompatibility from "./pages/BaziCompatibility";
+import MaleForm from "./pages/MaleForm";
+import FemaleForm from "./pages/FemaleForm";
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      <div className="font-sans text-slate-900 bg-white min-h-screen flex flex-col">
+        <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/activities" element={<Activities />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/bazi-compatibility" element={<BaziCompatibility />} />
-      </Routes>
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/activities" element={<Activities />} />
+            <Route path="/male-form" element={<MaleForm />} />
+            <Route path="/female-form" element={<FemaleForm />} />
+            <Route
+              path="/bazi-compatibility"
+              element={<BaziCompatibility />}
+            />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
 
-      <Footer />
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }
+
 export default App;

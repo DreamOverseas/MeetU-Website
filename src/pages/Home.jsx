@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from "react";
 import { Heart, ArrowRight, Loader2, CheckCircle, Users, Calendar, MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   EVENTS_API_URL,
   normalizeEvent,
@@ -8,7 +9,8 @@ import {
   formatDate,
 } from "../lib/meetuApi";
 
-const Home = ({ onNavigate, onEventClick }) => {
+const Home = () => {
+  const navigate = useNavigate();
   const [recentEvents, setRecentEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -53,16 +55,17 @@ const Home = ({ onNavigate, onEventClick }) => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button
-                onClick={() => onNavigate("male-form")}
+                onClick={() => navigate("/male-form")}
                 className="px-8 py-4 bg-blue-600 text-white rounded-full font-bold shadow-lg hover:bg-blue-700 transition transform hover:-translate-y-1"
               >
-                我是男生,寻找缘分
+               我是男生,寻找缘分
               </button>
+
               <button
-                onClick={() => onNavigate("female-form")}
+                onClick={() => navigate("/female-form")}
                 className="px-8 py-4 bg-rose-500 text-white rounded-full font-bold shadow-lg hover:bg-rose-600 transition transform hover:-translate-y-1"
               >
-                我是女生,期待邂逅
+               我是女生,期待邂逅
               </button>
             </div>
           </div>
