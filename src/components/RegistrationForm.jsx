@@ -1,129 +1,308 @@
-import React, { useState, useEffect } from "react";
+// src/components/RegistrationForm.jsx
+import React, { useEffect, useState } from "react";
+import { CheckCircle, Loader2 } from "lucide-react";
+import { APPLICANTS_API_URL } from "../lib/meetuApi";
 
-/* Helper: get correct days for the selected month */
-const getDaysInMonth = (year, month) => {
-  if (!year || !month) return 31;
-  return new Date(year, month, 0).getDate();
-};
+const RegistrationForm = ({ gender, eventId, isEmbedded }) => {
+  const isMale = gender === "male";
+  const showHeader = !isEmbedded;
+  const title = isMale ? "男士会员注册" : "女士会员注册";
+  const buttonClass = isMale
+    ? "w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition flex items-center justify-center gap-2"
+    : "w-full py-4 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-lg shadow-md transition flex items-center justify-center gap-2";
 
-const BaziPersonForm = ({ label, onChange }) => {
   const [formData, setFormData] = useState({
-    year: "",
-    month: "",
-    day: "",
-    birth_hour: "",
-    birth_minute: "",
-    gender: "男",
+    first_name: "",
+    last_name: "",
+    gender: isMale ? "male" : "female",
+    date_of_birth: "",
+    phone: "",
+    email: "",
+    city: "Melbourne",
   });
 
-  const daysInMonth = getDaysInMonth(formData.year, formData.month);
-
-  /* If month/year changes and current day becomes invalid → reset day */
   useEffect(() => {
-    if (formData.day && formData.day > daysInMonth) {
-      setFormData((prev) => ({ ...prev, day: "" }));
-    }
-  }, [formData.year, formData.month, formData.day]);
+    setFormData((prev) => ({
+      ...prev,
+      gender: isMale ? "male" : "female",
+    }));
+  }, [isMale, gender]);
+
+  const [formState, setFormState] = useState("idle"); // idle, submitting, success, error
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const updated = { ...formData, [name]: value };
-    setFormData(updated);
-    onChange(updated);
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  return (
-    <div className="border rounded-xl p-6 space-y-4">
-      <h2 className="text-xl font-semibold">{label}</h2>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormState("submitting");
+    setErrorMessage("");
 
-      {/* 性别 */}
-      <select
-        name="gender"
-        value={formData.gender}
-        onChange={handleChange}
-        className="w-full border p-2 rounded"
+    try {
+      const payload = {
+        data: {
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          gender: formData.gender,
+          date_of_birth: formData.date_of_birth,
+          phone: formData.phone,
+          email: formData.email,
+          city: formData.city,
+          meetu_events: eventId
+            ? { connect: [{ documentId: eventId }] }
+            : undefined,
+        },
+      };
+
+      console.log("[Apply] payload to Strapi:", payload);
+
+      const response = await fetch(APPLICANTS_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      let body = null;
+      try {
+        body = await response.json();
+      } catch (err) {
+        console.warn("[Apply] response not JSON:", err);
+      }
+
+      console.log("[Apply] response status:", response.status);
+      console.log("[Apply] response body:", body);
+
+      if (!response.ok) {
+        throw new Error(body?.error?.message || "Submission failed");
+      }
+
+      setFormState("success");
+      if (!isEmbedded) window.scrollTo(0, 0);
+    } catch (err) {
+      console.error("[Apply] submit error:", err);
+      setFormState("error");
+      setErrorMessage("提交失败，请稍后重试或联系客服。");
+    }
+  };
+
+  if (formState === "success") {
+    return (
+      <div
+        className={`flex flex-col items-center justify-center px-4 text-center ${
+          isEmbedded ? "py-10" : "min-h-[60vh] bg-gray-50"
+        }`}
       >
-        <option value="男">男</option>
-        <option value="女">女</option>
-      </select>
-
-      {/* 年 月 日 */}
-      <div className="flex gap-2">
-        {/* 年 */}
-        <select
-          name="year"
-          value={formData.year}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
+        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+          <CheckCircle className="w-10 h-10 text-green-500" />
+        </div>
+        <h2 className="text-3xl font-bold text-slate-800 mb-4">提交成功!</h2>
+        <p className="text-gray-600 max-w-md">
+          感谢您的报名。我们的团队成员将审核您的资料并与您取得联系。
+        </p>
+        <button
+          onClick={() => {
+            setFormState("idle");
+            setFormData({
+              ...formData,
+              first_name: "",
+              last_name: "",
+              phone: "",
+              email: "",
+              gender: isMale ? "male" : "female",
+            });
+          }}
+          className="mt-8 text-rose-500 hover:underline font-medium"
         >
-          <option value="">年</option>
-          {Array.from({ length: 100 }, (_, i) => {
-            const year = new Date().getFullYear() - i;
-            return (
-              <option key={year} value={year}>
-                {year}年
-              </option>
-            );
-          })}
-        </select>
-
-        {/* 月 */}
-        <select
-          name="month"
-          value={formData.month}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
-          <option value="">月</option>
-          {Array.from({ length: 12 }, (_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}月
-            </option>
-          ))}
-        </select>
-
-        {/* 日 */}
-        <select
-          name="day"
-          value={formData.day}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          disabled={!formData.year || !formData.month}
-        >
-          <option value="">日</option>
-          {Array.from({ length: daysInMonth }, (_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}日
-            </option>
-          ))}
-        </select>
+          返回填写新表单
+        </button>
       </div>
+    );
+  }
 
-      {/* 出生时间 */}
-      <div className="flex gap-2">
-        <input
-          type="number"
-          name="birth_hour"
-          min="0"
-          max="23"
-          placeholder="小时（0–23）"
-          value={formData.birth_hour}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="number"
-          name="birth_minute"
-          min="0"
-          max="59"
-          placeholder="分钟（0–59）"
-          value={formData.birth_minute}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+  return (
+    <div
+      className={
+        isEmbedded
+          ? "bg-white"
+          : "bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 min-h-screen"
+      }
+    >
+      <div
+        className={
+          isEmbedded
+            ? ""
+            : "max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden"
+        }
+      >
+        {showHeader && (
+          <div
+            className={`${
+              isMale ? "bg-blue-600" : "bg-rose-500"
+            } px-6 py-8 text-center`}
+          >
+            <h2 className="text-3xl font-bold text-white tracking-wide">
+              {title}
+            </h2>
+            <p className="text-white/80 mt-2">
+              填写详细资料,让我们为您找到最匹配的另一半
+            </p>
+          </div>
+        )}
+
+        <form
+          onSubmit={handleSubmit}
+          className={isEmbedded ? "px-6 py-8 space-y-6" : "px-8 py-10 space-y-6"}
+        >
+          {formState === "error" && (
+            <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-4 border border-red-100">
+              {errorMessage}
+            </div>
+          )}
+
+          {/* Name Fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                名 (First Name)
+              </label>
+              <input
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                required
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+                placeholder="San"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                姓 (Last Name)
+              </label>
+              <input
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                required
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+                placeholder="Zhang"
+              />
+            </div>
+          </div>
+
+          {/* Gender & DOB */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                性别 (Gender)
+              </label>
+              <select
+                name="gender"
+                value={formData.gender}
+                disabled
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none transition bg-gray-100 text-gray-500 cursor-not-allowed"
+              >
+                <option value="male">男 (Male)</option>
+                <option value="female">女 (Female)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                出生日期 (Date of Birth)
+              </label>
+              <input
+                name="date_of_birth"
+                value={formData.date_of_birth}
+                onChange={handleChange}
+                required
+                type="date"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+              />
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                手机号码 (Phone)
+              </label>
+              <input
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                type="tel"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+                placeholder="04xx xxx xxx"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                邮箱 (Email)
+              </label>
+              <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                type="email"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+                placeholder="example@email.com"
+              />
+            </div>
+          </div>
+
+          {/* City */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              所在城市 (City)
+            </label>
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-400 outline-none transition"
+            >
+              <option value="Melbourne">Melbourne (VIC)</option>
+              <option value="Sydney">Sydney (NSW)</option>
+              <option value="Brisbane">Brisbane (QLD)</option>
+              <option value="Perth">Perth (WA)</option>
+              <option value="Adelaide">Adelaide (SA)</option>
+              <option value="Canberra">Canberra (ACT)</option>
+              <option value="Hobart">Hobart (TAS)</option>
+              <option value="Darwin">Darwin (NT)</option>
+              <option value="Other">其他 / Overseas</option>
+            </select>
+          </div>
+
+          <div className="pt-4">
+            <button
+              type="submit"
+              disabled={formState === "submitting"}
+              className={`${buttonClass} disabled:opacity-70 disabled:cursor-not-allowed`}
+            >
+              {formState === "submitting" ? (
+                <>
+                  <Loader2 className="animate-spin" size={20} />
+                  提交中...
+                </>
+              ) : (
+                "提交资料"
+              )}
+            </button>
+            <p className="text-xs text-gray-500 text-center mt-3">
+              点击提交即表示您同意我们的服务条款。您的隐私将受到严格保护。
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default BaziPersonForm;
+export default RegistrationForm;

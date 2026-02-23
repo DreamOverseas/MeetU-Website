@@ -1,21 +1,23 @@
 // src/components/Navbar.jsx
 import React, { useState } from "react";
-import { Heart, Menu, X, MapPin, Phone, Mail, User } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
-const Navbar = ({ activeTab, setActiveTab, onResetSelection }) => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
-    { id: "home", label: "主页" },
-    { id: "activities", label: "精彩活动" },
-    { id: "male-form", label: "男生报名" },
-    { id: "female-form", label: "女生报名" },
-    { id: "about", label: "关于我们" },
+    { id: "/", label: "主页" },
+    { id: "/activities", label: "精彩活动" },
+    { id: "/male-form", label: "男生报名" },
+    { id: "/female-form", label: "女生报名" },
+    { id: "/bazi-compatibility", label: "八字合婚" },
+    { id: "/about", label: "关于我们" },
   ];
 
-  const handleNavClick = (id) => {
-    setActiveTab(id);
-    if (onResetSelection) onResetSelection();
+  const handleLogoClick = () => {
+    navigate("/");
     setIsMenuOpen(false);
   };
 
@@ -26,7 +28,7 @@ const Navbar = ({ activeTab, setActiveTab, onResetSelection }) => {
           {/* Logo Area */}
           <div
             className="flex-shrink-0 flex items-center cursor-pointer"
-            onClick={() => handleNavClick("home")}
+            onClick={handleLogoClick}
           >
             <img
               src="/logo.png"
@@ -47,24 +49,28 @@ const Navbar = ({ activeTab, setActiveTab, onResetSelection }) => {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <button
+              <NavLink
                 key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                  activeTab === item.id
-                    ? "text-rose-600 bg-rose-50"
-                    : "text-gray-600 hover:text-rose-500 hover:bg-gray-50"
-                }`}
+                to={item.id}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    isActive
+                      ? "text-rose-600 bg-rose-50"
+                      : "text-gray-600 hover:text-rose-500 hover:bg-gray-50"
+                  }`
+                }
+                onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}
-              </button>
+              </NavLink>
             ))}
-            <button
-              onClick={() => handleNavClick("male-form")}
+
+            <NavLink
+              to="/male-form"
               className="bg-rose-500 text-white px-5 py-2 rounded-full font-medium hover:bg-rose-600 transition shadow-sm hover:shadow-md"
             >
               立即加入
-            </button>
+            </NavLink>
           </div>
 
           {/* Mobile Menu Button */}
@@ -84,17 +90,20 @@ const Navbar = ({ activeTab, setActiveTab, onResetSelection }) => {
         <div className="md:hidden bg-white border-t border-gray-100">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navItems.map((item) => (
-              <button
+              <NavLink
                 key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`block w-full text-left px-3 py-4 rounded-md text-base font-medium ${
-                  activeTab === item.id
-                    ? "text-rose-600 bg-rose-50"
-                    : "text-gray-600 hover:text-rose-500 hover:bg-gray-50"
-                }`}
+                to={item.id}
+                className={({ isActive }) =>
+                  `block w-full text-left px-3 py-4 rounded-md text-base font-medium ${
+                    isActive
+                      ? "text-rose-600 bg-rose-50"
+                      : "text-gray-600 hover:text-rose-500 hover:bg-gray-50"
+                  }`
+                }
+                onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}
-              </button>
+              </NavLink>
             ))}
           </div>
         </div>
