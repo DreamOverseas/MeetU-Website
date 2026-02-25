@@ -53,6 +53,16 @@ const BaziCompatibility = () => {
       alert("请填写双方完整的出生日期、出生时间和性别");
       return;
     }
+    if (person1.birth_hour < 0 || person1.birth_hour > 23 ||
+        person2.birth_hour < 0 || person2.birth_hour > 23) {
+      alert("小时必须在 0 到 23 之间");
+      return;
+    }
+    if (person1.birth_minute < 0 || person1.birth_minute > 59 ||
+        person2.birth_minute < 0 || person2.birth_minute > 59) {
+      alert("分钟必须在 0 到 59 之间");
+      return;
+    }
 
     setLoading(true);
     setResult(null);
